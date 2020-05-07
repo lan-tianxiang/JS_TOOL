@@ -1,0 +1,41 @@
+name: Built_JS_Tool_To_Docker
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 */4 * * *'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DockerHub_ID }}
+          password: ${{ secrets.DockerHub_PASSWORD }}
+
+      - name: Build & Push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./docker/docker/
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/arm/v6,linux/ppc64le
+          push: true
+          tags: lantianxiang1/js_tool:A1
+      - name: Delete Workflow Runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 0
+          

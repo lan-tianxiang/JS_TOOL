@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户设定 · JS-TOOL</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/comment.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sublime.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <script type="text/javascript" src="./js/qrcode.min.js"></script>
+    <script type="text/javascript" src="./js/prefixfree.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./css/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./usrconfig">用户设定</a></li>
+                    <li><a href="./home">配置设定</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">更新工具</a></li>
+                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./run">手动执行</a></li>
+                    <li class="active"><a href="./terminal">终端</a></li>
+                    <li><a href="./BeanChange.html">变化曲线</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./viewScripts">查看脚本</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>在线编辑工具</h1>
+                <button id="save" title="保存">保存</button><button id="wrap" title="切换换行">切换换行</button><button
+                    id="cookietools" title="手机扫描二维码登录">扫码获取 Cookie</button>
+                <span>
+                    <input type="checkbox" id="autoReplace" checked="checked">
+                    <label for="autoReplace">
+                        <font color="#000000" size="1">扫码后自动替换</font>
+                    </label>
+                </span>
+            </header>
+            <h4>配置文件&#12288;&#12288;<font size="2">温馨提示：每次保存都会在 config/bak 目录下生成备份文件</font>
+            </h4>
+            <div class="wrapper">
+                <textarea id="code" name="code"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="qrcontainer" class="hidden">
+        <div class="qframe">
+            <div id="refresh_qrcode" class="hidden">
+                <div>
+                    <h3>二维码已失效</h3>
+                    <div class="refresh">刷新</div>
+                </div>
+            </div>
+            <div id="qrcode"></div>
+            <div class="info">请使用手机京东APP扫码</div>
+            <div class="qframe-close" title="关闭">✖</div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        var qrcode, userCookie;
+        $(document).ready(function () {
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: false,
+                styleActiveLine: true,
+                matchBrackets: true,
+                mode: 'shell',
+                theme: 'dracula',
+                keyMap: 'sublime'
+            });
+            $.get('./api/config/usrconfig', function (data) {
+                editor.setValue(data);
+            });
+
+            // 勾选记忆
+            if (sessionStorage.getItem('autoReplaceCookie') === 'false') {
+                $('#autoReplace').prop('checked', false);
+            }
+            $('#autoReplace').on('change', function () {
+                sessionStorage.setItem('autoReplaceCookie', $(this).prop('checked'));
+            });
+
+            qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: "sample",
+                correctLevel: QRCode.CorrectLevel.L
+            });
+
+
+            function copyToClip(content, message) {
+                var aux = document.createElement("input");
+                aux.setAttribute("value", content);
+                document.body.appendChild(aux);
+                aux.select();
+                document.execCommand("copy");
+                document.body.removeChild(aux);
+            }
+
+            function autoReplace(cookie) {
+                var value = editor.getValue();
+                var ptPin = /pt_pin=[\S]+;/.exec(cookie)[0];
+                var cookieReg = new RegExp(`pt_key=[\\S]+;${ptPin}`);
+                if (cookieReg.test(value)) {
+                    var newValue = value.replace(cookieReg, cookie);
+                    editor.setValue(newValue);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+
+            function checkLogin() {
+                var timeId = setInterval(() => {
+                    $.get('./cookie', function (data) {
+                        if (data.err == 0) {
+                            clearInterval(timeId);
+                            $("#qrcontainer").addClass("hidden");
+                            $("#refresh_qrcode").addClass("hidden");
+                            userCookie = data.cookie
+                            var isAutoReplace = $('#autoReplace').prop('checked');
+                            if (isAutoReplace) {
+                                if (autoReplace(userCookie)) {
+                                    Swal.fire({
+                                        title: "cookie已获取(1s后自动替换)",
+                                        html: '<div class="cookieCon" style="font-size:12px;">' +
+                                            userCookie + '</div>',
+                                        icon: "success",
+                                        showConfirmButton: false,
+                                    });
+
+                                    setTimeout(() => {
+                                        $('#save').trigger('click');
+                                    }, 1000);
+                                } else {
+                                    Swal.fire({
+                                        title: "cookie已获取",
+                                        html: '<div class="cookieCon" style="font-size:16px;font-weight: bold;">首次添加，请复制后填写入Cookiex=""中。</div>' +
+                                            '<div class="cookieCon" style="font-size:12px;">' +
+                                            userCookie + '</div>',
+                                        icon: "success",
+                                        confirmButtonText: "复制Cookie",
+                                    }).then((result) => {
+                                        copyToClip(userCookie);
+                                    });
+                                }
+                            } else {
+                                Swal.fire({
+                                    title: "cookie已获取",
+                                    html: '<div class="cookieCon" style="font-size:12px;">' +
+                                        userCookie + '</div>',
+                                    icon: "success",
+                                    confirmButtonText: "复制Cookie",
+                                }).then((result) => {
+                                    copyToClip(userCookie);
+                                });
+                            }
+
+                        } else if (data.err == 21) {
+                            clearInterval(timeId);
+                            $("#refresh_qrcode").removeClass("hidden");
+                        }
+                    })
+                }, 3000)
+
+            }
+
+            function get_code() {
+                $.get('./qrcode', function (data) {
+                    if (data.err == 0) {
+                        $("#qrcontainer").removeClass("hidden")
+                        $("#refresh_qrcode").addClass("hidden")
+                        qrcode.clear();
+                        qrcode.makeCode(data.qrcode);
+                        checkLogin();
+                    } else {
+                        Swal.fire({
+                            text: data.msg,
+                            icon: "error"
+                        })
+                    }
+                });
+            }
+
+            $('.refresh').click(get_code);
+
+            $('#cookietools').click(get_code);
+
+            $('.qframe-close').click(function () {
+                $("#qrcontainer").addClass("hidden");
+                $("#refresh_qrcode").addClass("hidden");
+            });
+
+            $('#save').click(function () {
+                var confContent = editor.getValue();
+                $.post('./api/save', {
+                    content: confContent,
+                    name: "cookie.sh"
+                }, function (data) {
+                    let icon = (data.err == 0) ? "success" : "error"
+                    Swal.fire({
+                        title: data.title,
+                        text: data.msg,
+                        icon: icon
+                    }).then((result) => {
+                        window.location.reload(true);
+                    })
+                });
+            });
+
+            $('#wrap').click(function () {
+                var lineWrapping = editor.getOption('lineWrapping');
+                editor.setOption('lineWrapping', !lineWrapping);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

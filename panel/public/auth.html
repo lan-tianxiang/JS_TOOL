@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>JSTOOL控制面板</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/sweetalert2.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+	<link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+
+    <div class="login-form">
+        <h1>JSTOOL控制面板</h1>
+        <form action="auth" method="POST">
+            <input type="text" name="username" class="username" placeholder="用户名" required>
+            <input type="password" name="password" class="password" placeholder="密码" required>
+            <input type="submit" id="login" value="登录">
+        </form>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $("#login").click(function () {
+            $user = $(".username").val();
+            $password = $(".password").val();
+            if (!$user || !$password) return;
+
+            $.post('./auth', {
+                username: $user,
+                password: $password
+            }, function (data) {
+                if (data.err == 0) {
+                    window.location.href = "./usrconfig";
+                } else {
+                    Swal.fire({
+                        text: data.msg,
+                        icon: 'error'
+                    })
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+
+</html>
