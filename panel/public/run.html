@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手动执行脚本 · JS-TOOL</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <script type="text/javascript" src="./js/prefixfree.min.js"></script>
+
+    <link rel="stylesheet" href="./css/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./usrconfig">用户设定</a></li>
+                    <li><a href="./home">配置设定</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">更新工具</a></li>
+                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./run">手动执行</a></li>
+                    <li class="active"><a href="./terminal">终端</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./viewScripts">查看脚本</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>脚本执行工具</h1>
+                <div style="margin-left: 0.5em;">
+                    <button id="wrap" class="cmd-btn" title="切换换行">切换换行</button>
+                    <button id="move-bottom" class="cmd-btn" title="跳转底部">跳转底部</button>
+                    <button id="update" title="更新脚本文件">更新脚本文件</button>
+                    <button id="jd_get_share_code" class="cmd-btn" title="获取互助码">按账号输出助力码</button>
+                    <button id="helpcode" title="格式化所有互助码">自动配置互助码</button>
+                    <button id="jd_clean" title="删除日志">删除日志</button>
+                    <button id="jd_crazy_joy_coin" class="cmd-btn" title="运行挂机活动">运行挂机活动</button>
+                    <button id="hangup" title="启动/重启后台挂机程序">启动/重启后台挂机程序</button>
+                    <button id="crazy_joy_coin" title="停止后台挂机程序">停止后台挂机程序</button>
+                    <button id="resetpwd" title="重置控制面板用户名和密码">重置控制面板用户名和密码</button>
+                    <br />
+                    <button id="jd_list" class="cmd-btn" title="列出活动脚本">列出活动脚本</button>
+                    <button id="jd_bean_change" class="cmd-btn" title="京豆变动通知">京豆变动通知</button>
+                    <button id="jd_unsubscribe" class="cmd-btn" title="取关店铺和商品">取关店铺和商品</button>
+                    <button id="jd_fruit" class="cmd-btn" title="东东农场">东东农场</button>
+                    <button id="jd_pet" class="cmd-btn" title="东东萌宠">东东萌宠</button>
+                    <button id="jd_plantBean" class="cmd-btn" title="种豆得豆">种豆得豆</button>
+                    <button id="jd_jdfactory" class="cmd-btn" title="东东工厂">东东工厂</button>
+                    <button id="jd_dreamFactory" class="cmd-btn" title="京喜工厂">京喜工厂</button>
+                    <button id="jd_jdzz" class="cmd-btn" title="京东赚赚">京东赚赚</button>
+                    <button id="jd_crazy_joy" class="cmd-btn" title="疯狂的JOY">疯狂的JOY</button>
+                    <button id="jd_bookshop" class="cmd-btn" title="口袋书店">口袋书店</button>
+                    <button id="jd_cash" class="cmd-btn" title="签到领现金">签到领现金</button>
+                    <button id="jd_jxnc" class="cmd-btn" title="京喜农场">京喜农场</button>
+                    <button id="jd_sgmh" class="cmd-btn" title="闪购盲盒">闪购盲盒</button>
+                    <button id="jd_cfd" class="cmd-btn" title="京喜财富岛">京喜财富岛</button>
+                    <br />
+                </div>
+                <form class="run-cmd-form" action="runCmd" method="POST">
+                    <div class="cmd-section" style="margin-left: 0.5em;">
+                        <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称" required>
+                    </div>
+                    <input style="width: 60px;height: 30px" type="submit" id="runCmd" class="ant-btn ant-btn-primary"
+                        value="执行">
+                    &#12288;<p>
+                        <font color="#000000" size="2">温馨提示：只能手动执行的活动名，执行其他请进入终端操作。若执行活动脚本期间卡住或想停止运行，刷新页面即可。
+                        </font>
+                    </p>
+                </form>
+                <br />
+            </header>
+            &nbsp;
+            <div class="wrapper">
+                <textarea id="code" name="code" readonly="readonly"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $(document).ready(function () {
+            var timer = 0;
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: false,
+                styleActiveLine: true,
+                matchBrackets: true,
+                readOnly: true,
+                mode: 'text',
+                theme: 'dracula'
+            });
+
+            $('.cmd-btn').click(function () {
+                if (timer) {
+                    Swal.fire({
+                        text: '请等待上一条任务执行完毕！',
+                        icon: 'error'
+                    });
+                    return;
+                }
+                editor.setValue('');
+
+                const jsName = this.id === 'jd_list' ? '' : this.id;
+                const cmd = jsName ? `bash jd.sh ${jsName} now` : 'bash jd.sh';
+                $.post('./runCmd', {
+                    cmd: cmd
+                }, function (data) {
+                    editor.setValue(data.msg);
+
+                    if (jsName) {
+                        //将光标和滚动条设置到文本区最下方
+                        editor.execCommand('goDocEnd');
+                    }
+
+                    clearInterval(timer);
+                    timer = 0;
+                });
+
+                timer = 1;
+                // 1s后开始查日志
+                setTimeout(() => {
+                    jsName && getLogInterval(jsName);
+                }, 1000);
+            });
+
+
+            $('#update, #helpcode, #hangup, #jd_clean, #resetpwd, #jd_delCoupon, #crazy_joy_coin, #run_all')
+                .click(function () {
+                    let confirmTxt, cmd;
+                    switch (this.id) {
+                        case 'update':
+                            confirmTxt = '确认更新项目文件与活动脚本？';
+                            cmd = `bash jd.sh ${this.id}`;
+                            break;
+                        case 'helpcode':
+                            confirmTxt = '更新并输出互助码？';
+                            cmd = `bash jd.sh myhelp`;
+                            break;
+                        case 'hangup':
+                            confirmTxt = '确认启动/重启挂机程序？';
+                            cmd = `bash jd.sh ${this.id}`;
+                            break;
+                        case 'jd_clean':
+                            confirmTxt = '确认删除日志？';
+                            cmd = `bash jd.sh clean`;
+                            break;
+                        case 'resetpwd':
+                            confirmTxt = '确认重置用户名与密码？';
+                            cmd = `bash jd.sh ${this.id}`;
+                            break;
+                        case 'jd_delCoupon':
+                            confirmTxt = '确认删除优惠券（存在误删，谨慎操作）？';
+                            cmd = `bash jd.sh ${this.id}`;
+                            break;
+                        case 'crazy_joy_coin':
+                            confirmTxt = '确认停止后台挂机程序？';
+                            cmd = `pm2 stop jd_${this.id}`;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (!confirm(confirmTxt)) {
+                        return;
+                    }
+
+                    if (timer) {
+                        Swal.fire({
+                            text: '请等待上一条任务执行完毕！',
+                            icon: 'error'
+                        });
+                        return;
+                    }
+                    editor.setValue('');
+
+                    $.post('./runCmd', {
+                        cmd
+                    }, function (data) {
+                        editor.setValue(data.msg);
+
+                        clearInterval(timer);
+                        timer = 0;
+                    });
+
+                    timer = 1;
+                });
+
+
+            $('#runCmd').click(function () {
+                const jdScript = $('#jdScript').val();
+                if (!jdScript) {
+                    Swal.fire({
+                        text: '请先补充命令！',
+                        icon: 'error'
+                    });
+                    return;
+                }
+
+                if (timer) {
+                    Swal.fire({
+                        text: '请等待上一条任务执行完毕！',
+                        icon: 'error'
+                    });
+                    return;
+                }
+                editor.setValue('');
+
+                const jsName = this.id === 'jd_list' ? '' : this.id;
+                const cmd = `bash jd.sh ${jdScript} now`;
+                $.post('./runCmd', {
+                    cmd: cmd,
+                    delay: 500
+                }, function (data) {
+                    editor.setValue(data.msg);
+
+                    //将光标和滚动条设置到文本区最下方
+                    editor.execCommand('goDocEnd');
+
+                    clearInterval(timer);
+                    timer = 0;
+                });
+
+                timer = 1;
+                // 1s后开始查日志
+                setTimeout(() => {
+                    getLogInterval(jdScript);
+                }, 1000);
+
+                return false;
+            });
+
+
+            function getLogInterval(jsName) {
+                timer && clearInterval(timer);
+
+                // 先执行一次
+                getLog(jsName);
+                timer = setInterval(() => {
+                    getLog(jsName);
+                }, 1500);
+            }
+
+            function getLog(jsName) {
+                $.get(`./runLog/${jsName}`, function (data) {
+                    if (data !== 'no logs') {
+                        editor.setValue(data);
+                    }
+                    //将光标和滚动条设置到文本区最下方
+                    editor.execCommand('goDocEnd');
+                });
+            }
+
+            $('#wrap').click(function () {
+                var lineWrapping = editor.getOption('lineWrapping');
+                editor.setOption('lineWrapping', !lineWrapping);
+            });
+
+            $('#move-bottom').click(function () {
+                editor.execCommand('goDocEnd');
+            })
+
+            $('#jd_list').trigger('click');
+        });
+    </script>
+
+</body>
+
+</html>

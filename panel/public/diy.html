@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义脚本 · JS-TOOL</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/comment.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sublime.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <script type="text/javascript" src="./js/prefixfree.min.js"></script>
+
+    <link rel="stylesheet" href="./css/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./usrconfig">用户设定</a></li>
+                    <li><a href="./home">配置设定</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">更新工具</a></li>
+                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./run">手动执行</a></li>
+                    <li class="active"><a href="./terminal">终端</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./viewScripts">查看脚本</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>在线编辑工具</h1>
+                <button id="save" title="保存">保存</button><button id="wrap" title="切换换行">切换换行</button>
+                <br />
+            </header>
+            <h4>自定义脚本&#12288;&#12288;<font size="2">温馨提示：此脚本的用途为收集并添加第三方作者编写的活动脚本，关于如何启用该功能详见配置文件中的《DIY脚本功能设置》模块。</font>
+            </h4>
+            <div class="wrapper">
+                <textarea id="code" name="code"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $(document).ready(function () {
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: true,
+                styleActiveLine: true,
+                matchBrackets: true,
+                mode: 'shell',
+                theme: 'dracula',
+                keyMap: 'sublime'
+            });
+            $.get('./api/config/diy', function (data) {
+                editor.setValue(data);
+            });
+
+            $('#save').click(function () {
+                var confContent = editor.getValue();
+                let timeStamp = (new Date()).getTime()
+                $.post('./api/save?t=' + timeStamp, {
+                    content: confContent,
+                    name: "diy.sh"
+                }, function (data) {
+                    let icon = (data.err == 0) ? "success" : "error"
+                    Swal.fire({
+                        title: data.title,
+                        text: data.msg,
+                        icon: icon
+                    }).then((result) => {
+                        window.location.reload(true);
+                    })
+                });
+            });
+
+            $('#wrap').click(function () {
+                var lineWrapping = editor.getOption('lineWrapping');
+                editor.setOption('lineWrapping', !lineWrapping);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

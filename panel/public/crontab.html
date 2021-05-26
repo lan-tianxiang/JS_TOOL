@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定时设定 · JS-TOOL</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/comment.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sublime.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <script type="text/javascript" src="./js/prefixfree.min.js"></script>
+
+    <link rel="stylesheet" href="./css/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./usrconfig">用户设定</a></li>
+                    <li><a href="./home">配置设定</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">更新工具</a></li>
+                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./run">手动执行</a></li>
+                    <li class="active"><a href="./terminal">终端</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./viewScripts">查看脚本</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>在线编辑工具</h1>
+                <button id="save" title="保存">保存</button><button title="定时帮助文档"
+                    onclick="javascript:window.open('https://www.runoob.com/w3cnote/linux-crontab-tasks.html')">定时帮助文档</button>
+            </header>
+            <h4>定时任务清单</h4>
+            <div class="wrapper">
+                <textarea id="code" name="code"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $(document).ready(function () {
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: false,
+                styleActiveLine: true,
+                matchBrackets: true,
+                mode: 'shell',
+                theme: 'dracula',
+                keyMap: 'sublime'
+            });
+            $.get('./api/config/crontab', function (data) {
+                editor.setValue(data);
+            });
+
+            $('#save').click(function () {
+                var confContent = editor.getValue();
+                $.post('./api/save', {
+                    content: confContent,
+                    name: "crontab.list"
+                }, function (data) {
+                    let icon = (data.err == 0) ? "success" : "error"
+                    Swal.fire({
+                        title: data.title,
+                        html: data.msg + '<br>定时任务已同步更新',
+                        icon: icon
+                    }).then((result) => {
+                        window.location.reload(true);
+                    })
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

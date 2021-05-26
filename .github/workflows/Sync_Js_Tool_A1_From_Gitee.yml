@@ -1,0 +1,45 @@
+name: Sync_Js_Tool_From_Gitee
+on:
+  push:
+    branches:
+      - A1
+  workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *'
+jobs:
+  sync:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+    steps:
+    - name: Init Build Dependencies
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E rm -rf /etc/apt/sources.list.d
+        sudo -E apt-get update -y
+        sudo -E apt-get install -y build-essential git git-core curl wget
+        sudo -E apt-get clean -y
+        git config --global user.name 'lan-tianxiang' && git config --global user.email 'highdimen@github.com'
+    - name: Prepare Key
+      run: |
+        mkdir -p ~/.ssh
+        echo -e "${{ secrets.RSA_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan gitee.com > ~/.ssh/known_hosts
+    - name: Clone A1 From js_tool
+      run: |
+        git clone -b A1 git@gitee.com:highdimen/js_tool.git A1
+    - name: Push A1
+      uses: ad-m/github-push-action@master
+      with:
+        directory: A1
+        github_token: ${{ secrets.HUB_TOKEN }}
+        branch: A1
+        force : true
+    - name: Delete Workflow Runs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        token: ${{ github.token }}
+        repository: ${{ github.repository }}
+        retain_days: 1
+        keep_minimum_runs: 0

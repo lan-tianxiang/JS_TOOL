@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修改密码 · JS-TOOL</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <script type="text/javascript" src="./js/prefixfree.min.js"></script>
+
+    <link rel="stylesheet" href="./css/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./usrconfig">用户设定</a></li>
+                    <li><a href="./home">配置设定</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">更新工具</a></li>
+                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./run">手动执行</a></li>
+                    <li class="active"><a href="./terminal">终端</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./viewScripts">查看脚本</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <div class="login-form">
+                <h1>请输入新的用户名和密码</h1>
+                <form action="changepass" method="POST">
+                    <input type="text" name="username" class="username" placeholder="用户名" required>
+                    <input type="password" name="password" class="password" placeholder="密码" required>
+                    <input type="submit" id="changeBtn" value="提交修改">
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $("#changeBtn").click(function () {
+            $user = $(".username").val();
+            $password = $(".password").val();
+            if (!$user || !$password) return;
+
+            $.post('./changepass', {
+                username: $user,
+                password: $password
+            }, function (data) {
+                let icon = (data.err == 0) ? "success" : "error"
+                Swal.fire({
+                    text: data.msg,
+                    icon: icon
+                })
+            });
+            return false;
+        });
+    </script>
+
+</body>
+
+</html>

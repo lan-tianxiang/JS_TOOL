@@ -1,0 +1,497 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+ul {
+    color: #000000;
+    margin: 0.2em 0 0.4em 0;
+    margin-left: 0.5em;
+    font-size: 1.5rem;
+    padding-right: 1rem;
+}
+
+h4 {
+    margin-top: 0.5em;
+    margin-left: 0.8em;
+    margin-bottom: 0.5em;
+    color: rgb(0, 0, 0);
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a:link,
+nav ul li a:visited,
+nav ul li a:active {
+    font-size: 0.875rem;
+    padding: 0.5rem 1.4rem;
+    color: white;
+    text-decoration: none;
+    background-color: #1A3D22;
+    transition: background-color 200ms;
+}
+
+nav ul li a:hover {
+    background-color: #000000;
+}
+
+nav .active a {
+    background-color: #1A3D22 !important;
+}
+
+.footer {
+    color: rgb(185, 185, 185);
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+
+}
+
+.container p {
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.5em;
+}
+
+.container .right {
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    float: left;
+    width: 250px;
+    height: 50px;
+    border: 1px solid #F00;
+}
+
+.diffs {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.diffs header {
+    margin-top: 1rem;
+}
+
+.diffs header * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.diffs .compare-wrapper,
+.diffs .wrapper {
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.diffs .compare-wrapper #compare {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/* Auto-height fix */
+
+.wrapper .CodeMirror {
+    position: absolute;
+    height: calc(100% - 0.5em);
+    width: 100%
+}
+
+.mergely-column .CodeMirror {
+    height: 100%;
+}
+
+.sources a {
+    font-size: 1rem;
+}
+
+/* Login page */
+.login-form {
+    width: 300px;
+    height: 450px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+.login-form h1 {
+    text-align: center;
+    color: #000000;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+}
+
+.login-form input[type="password"],
+.login-form input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dddddd;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border-radius: 11px 11px 11px 11px;
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px 11px 11px 11px;
+}
+
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #6D8A88;
+    border: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 11px 11px 11px 11px;
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px 11px 11px 11px;
+}
+
+#qrcontainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .8);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+#qrcontainer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#qrcontainer .qframe {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: #6D8A88 1px solid;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#qrcontainer .qframe #refresh_qrcode {
+    width: 256px;
+    height: 256px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 1rem;
+    top: 1rem;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qrcontainer .qframe #refresh_qrcode.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#qrcontainer .qframe #refresh_qrcode h3 {
+    font-weight: normal;
+}
+
+#qrcontainer .qframe #refresh_qrcode .refresh {
+    display: block;
+    background: #e4393c;
+    width: 80px;
+    height: 30px;
+    margin: 0 auto;
+    line-height: 30px;
+    opacity: 1;
+    z-index: 19;
+    color: #fbfbfb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#qrcontainer .qframe .info {
+    padding: 1rem 0 0 0;
+}
+
+#qrcontainer .qframe .qframe-close {
+    font-size: 20px;
+    color: #f00;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+
+    nav ul li a:link,
+    nav ul li a:visited,
+    nav ul li a:active {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.5rem;
+        margin: 0;
+
+    }
+
+    .container p {
+        font-size: 0.75rem;
+        margin: 0;
+        line-height: 1.5em;
+    }
+}
+
+.log-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0 .5em;
+}
+
+@media (min-width: 992px) {
+    .elk-app {
+        height: 100%;
+    }
+
+    .elk-side {
+        width: 20rem;
+    }
+
+    .elk-container,
+    .elk-main,
+    .elk-side {
+        overflow-y: auto;
+    }
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.left-list {
+    overflow: auto;
+    z-index: 100;
+}
+
+.text-dark {
+    color: #343a40 !important;
+}
+
+.nav-link {
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+/* diff页面 */
+.CodeMirror-merge {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow: hidden;
+}
+
+.CodeMirror-merge .CodeMirror {
+    height: 100%;
+}
+
+.CodeMirror-merge-2pane .CodeMirror-merge-pane {
+    width: calc(50% - 15px);
+}
+
+.CodeMirror-merge-2pane .CodeMirror-merge-gap {
+    width: 30px;
+    background: #1E411F
+}
+
+.CodeMirror-merge-2pane .CodeMirror-merge-scrolllock {
+    display: none;
+}
+
+.CodeMirror-merge-pane-rightmost {
+    position: static;
+}
+
+/* 更新工具差异处颜色 */
+.CodeMirror-merge-r-chunk {
+    background: #1E411F
+}
+
+.CodeMirror-merge-r-chunk-start {
+    border-top: 1px solid #1E411F;
+}
+
+.CodeMirror-merge-r-chunk-end {
+    border-bottom: 1px solid #1E411F;
+}
+
+.CodeMirror-merge-r-connect {
+    fill: #ebdc5c;
+    stroke: rgb(148, 238, 136);
+    stroke-width: 1px;
+}
+
+/* 手动执行脚本页面 */
+.run-cmd-form {
+    margin-top: 6px;
+}
+
+.cmd-section {
+    border-color: #1e90ff;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #1e90ff;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #1e90ff;
+
+}
+
+.cmd-section input {
+    width: 150px;
+    height: 20px;
+    -moz-animation: glow 800ms ease-out infinite alternate;
+    -o-animation: glow 800ms ease-out infinite alternate;
+    -ms-animation: glow 800ms ease-out infinite alternate;
+    animation: glow 800ms ease-out infinite alternate;
+    background: #222922;
+    background: -webkit-linear-gradient(#333933, #222922);
+    background: -moz-linear-gradient(#333933, #222922);
+    background: -o-linear-gradient(#333933, #222922);
+    background: -ms-linear-gradient(#333933, #222922);
+    background: linear-gradient(#333933, #222922);
+    color: #efe;
+    outline: none;
+}
+
+
+/* 按钮配置 */
+button {
+    /* 静态背景颜色 */
+    background: #000000;
+    /* 静态字体颜色 */
+    color: rgb(255, 255, 255);
+    border: none;
+    position: relative;
+    height: 30px;
+    font-size: 0.6em;
+    padding: 0 1em;
+    cursor: pointer;
+    transition: 200ms ease all;
+    outline: none;
+}
+
+button:hover {
+    /* 静态字体颜色 */
+    color: #000000;
+    /* 点击背景颜色 */
+    background: rgb(255, 255, 255);
+
+}
+
+button:before,
+button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 0px;
+    width: 0;
+    /* 线条动画颜色 */
+    background: #535252;
+    transition: 400ms ease all;
+}
+
+button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button:hover:before,
+button:hover:after {
+    width: 100%;
+    transition: 500ms ease all;
+}
+
+.ant-btn {
+    line-height: 1.499;
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    cursor: pointer;
+    -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    height: 32px;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    border-color: #d9d9d9;
+}
+
+.ant-btn-primary {
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-btn-red {
+    color: #fff;
+    background-color: #FF5A44;
+    border-color: #FF5A44;
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+}
