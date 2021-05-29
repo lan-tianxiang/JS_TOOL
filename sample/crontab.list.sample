@@ -17,8 +17,8 @@ ENV_PATH=
 # 8 5 * * * thirdpard jd_live.js
 
 # thirdpard任务区域
-# 定时区域thirdpard开始
-# 定时区域thirdpard结束
+# 定时区域thirdpard开始，误删
+# 定时区域thirdpard结束，误删
 
 
 
