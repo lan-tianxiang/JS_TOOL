@@ -12,6 +12,16 @@ ENV_PATH=
 # 重启挂机程序
 # 33 13 * * * JDRUN hangup
 
+# DIY任务区域
+# 需自行将脚本放在scripts文件夹下
+# 8 5 * * * thirdpard jd_live.js
+
+# thirdpard任务区域
+# 定时区域thirdpard开始
+# 定时区域thirdpard结束
+
+
+
 # jd任务区域，运行jd_scripts脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
 # 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
 # 非lxk0301/jd_scripts仓库中的脚本请使用jd命令，不要使用jd命令。请在最后保留一个空行。
