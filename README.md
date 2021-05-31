@@ -3,6 +3,9 @@
 -->
 
 ### 新旧版本同时更新  答疑交流QQ群967451175
+V3版（原版） https://github.com/lan-tianxiang/jd_shell
+A1版（较新） https://github.com/lan-tianxiang/js_tool
+
 
 <p align="center">
  <img width="100px" src="https://res.cloudinary.com/anuraghazra/image/upload/v1594908242/logo_ccswme.svg" align="center" alt="GitHub Readme Stats" />
