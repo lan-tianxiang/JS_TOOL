@@ -109,8 +109,6 @@ INSTALLATION_CLONE() {
   [ ! -f $JdDir/config/sharecode.sh ] && cp -f $JdDir/sample/sharecode.sh.sample $JdDir/config/sharecode.sh
   bash $JdDir/jd.sh update
 
-  [ ! -x "$(command -v pm2)" ] && echo "正在安装pm2" && npm install pm2@latest -g
-
   echo -e "\n注意：原有定时任务已备份在 $JdDir/old_crontab"
   rm -f $dir_shell/${ShellName}
 
