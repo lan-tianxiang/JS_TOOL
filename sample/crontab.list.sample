@@ -1,7 +1,7 @@
 ENV_PATH=
 
 # 更新所有脚本（包括自用thirdpard脚本）
-42 * * * * JDRUN update >> ROOT_DIR/log/CMD_JD.log 2>&1
+22 * * * * JDRUN update >> ROOT_DIR/log/CMD_JD.log 2>&1
 
 # 删除 RmLogDaysAgo 指定天数以前的旧日志，本行为不记录日志：
 57 13 * * * JDRUN clean
