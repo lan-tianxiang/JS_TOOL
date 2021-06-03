@@ -127,7 +127,8 @@ Input_PanelPort
 
 # 输入端口号
 Input_NotworkType() {
-    echo -n -e "\n\e[33m请输入docker网络模式\n1) brindge[默认]\n2) host\e[0m"
+    inp "\ndocker网络模式\n1) brindge[默认]\n2) host"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
     read NotworkType
     if [ -z "$NotworkType" ]; then
         NotworkType="bridge"
