@@ -720,6 +720,9 @@ AutoDelThirdpardCron="false"
 ## 默认关闭false，开启请输true
 ##ConfigCover="false"
 
+PUSH_CHANEL=""
+push1_value1=""
+push1_value2=""
 
-
-
+push2_value1=""
+push2_value2=""
