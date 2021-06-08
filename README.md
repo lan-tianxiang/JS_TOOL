@@ -78,11 +78,6 @@ A1版（较新） https://github.com/lan-tianxiang/js_tool
 
 ### 如何部署？
 
-（推荐使用docker安装），有点如下：
-一、安全方面，暴露主机端口很危险，docker被入侵不影响主机。
-二、docker类似虚拟机，不用在主机安装软件，影响环境，且Bug少，面板自启功能
-[Docker](https://github.com/lan-tianxiang/js_tool/wiki/Docker)
-
 ## `Linux`
 
 - [Debian/Ubuntu/Armbian/OpenMediaVault等Debian系](https://github.com/lan-tianxiang/js_tool/wiki/Linux)  🔻

@@ -14,6 +14,8 @@ jd panelon
 
 echo -e "容器启动成功...\n"
 
-crond -f
+if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then
+  set -- node "$@"
+fi
 
 exec "$@"
