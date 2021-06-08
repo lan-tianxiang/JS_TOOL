@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e
 
-crond
-
-echo -e "\n======================== 2. 更新源代码 ========================\n"
 jd update
-echo
 
 crontab /root/jd/config/crontab.list
 
