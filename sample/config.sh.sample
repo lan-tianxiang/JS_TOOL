@@ -471,11 +471,11 @@ ThirdpardRawFile=(
 
 ## 是否自动增加 thirdpard 类脚本（其他开发者脚本）的cron任务（选填）
 ## 本shell脚本不一定能完全从js脚本中识别出有效的cron设置，如果发现不能满足你的需要，请设置为 "false" 以取消自动增加。
-AutoAddThirdpardCron="false"
+AutoAddThirdpardCron="true"
 
 ## 是否自动删除 thirdpard 类脚本（其他开发者脚本）的cron任务（选填）
 ## 本shell脚本不一定能完全从js脚本中识别出有效的cron设置，如果发现不能满足你的需要，请设置为 "false" 以取消自动删除。
-AutoDelThirdpardCron="false"
+AutoDelThirdpardCron="true"
 
 
 ## ---------------------------------- 手 动 填 写 互 助 码 区 域 （不推荐！） ----------------------------------
