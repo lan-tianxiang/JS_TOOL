@@ -52,7 +52,7 @@ RandomDelay="30"
 ## 设置为 true 时，将直接导入最新日志来进行互助，如希望不完全按照最新日志来互助，可以在config目录下新建sharecode.sh，内容参考log/helpcode日志并按需修改，sharecode.sh赋值内容会覆盖log/helpcode日志中同名变量
 ## 如果启用了TempBlockCookie，那么只是被屏蔽的账号不助力其他账号，其他账号还是会助力被屏蔽的账号
 ## 如不需要自动互助，请设置为false，并将脚本输出日志粘贴在第三区域或粘贴在config/sharecode.sh中，并自行根据需要进行修改
-AutoHelpOther="false"
+AutoHelpOther="true"
 
 
 ################################## 导出互助码模板样式（选填） ###################################
