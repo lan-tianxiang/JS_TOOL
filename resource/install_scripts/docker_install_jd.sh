@@ -130,10 +130,10 @@ Input_NotworkType() {
     inp "\ndocker网络模式\n1) brindge[默认]\n2) host"
     echo -n -e "\e[33m输入您的选择->\e[0m"
     read NotworkType
-    if [ -z "$NotworkType" ]; then
-        NotworkType="bridge"
-    else
+    if [ "$NotworkType" = "2" ]; then
         NotworkType="host"
+    else
+        NotworkType="bridge"
     fi
 }
 Input_NotworkType
