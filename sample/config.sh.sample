@@ -12,6 +12,7 @@
 ## 由于近期JS库变化较大，您可以手动更换本工具预先内置的库地址。
 ## 部分文件的改动可以考虑用第三方库功能进行替换即可。
 ## 值为空表示使用默认地址
+## 比如JD_SCRIPTS_URL="https://gitee.com/highdimen/clone_scripts.git"
 JD_SCRIPTS_URL=""
 
 
