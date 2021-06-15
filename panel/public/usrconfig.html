@@ -117,6 +117,7 @@
 
             function autoReplace(cookie) {
                 var value = editor.getValue();
+                console.log(value);
                 var ptPin = /pt_pin=[\S]+;/.exec(cookie)[0];
                 var cookieReg = new RegExp(`pt_key=[\\S]+;${ptPin}`);
                 if (cookieReg.test(value)) {
@@ -141,7 +142,7 @@
                             if (isAutoReplace) {
                                 if (autoReplace(userCookie)) {
                                     Swal.fire({
-                                        title: "cookie已获取(2s后自动替换)",
+                                        title: "cookie已获取(1s后自动替换)",
                                         html: '<div class="cookieCon" style="font-size:12px;">' +
                                             userCookie + '</div>',
                                         icon: "success",
@@ -150,11 +151,11 @@
 
                                     setTimeout(() => {
                                         $('#save').trigger('click');
-                                    }, 2000);
+                                    }, 1000);
                                 } else {
                                     Swal.fire({
                                         title: "cookie已获取",
-                                        html: '<div class="cookieCon" style="font-size:16px;font-weight: bold;">自动替换失败，请复制Cookie后手动更新。</div>' +
+                                        html: '<div class="cookieCon" style="font-size:16px;font-weight: bold;">首次添加，请复制后填写入Cookiex=""中。</div>' +
                                             '<div class="cookieCon" style="font-size:12px;">' +
                                             userCookie + '</div>',
                                         icon: "success",

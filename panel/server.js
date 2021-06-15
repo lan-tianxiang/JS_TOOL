@@ -74,9 +74,9 @@ function getCookie(response) {
     s_pin = s_pin.substring(s_pin.indexOf("=") + 1, s_pin.indexOf(";"))
     cookies = "TrackerID=" + TrackerID + "; pt_key=" + pt_key + "; pt_pin=" + pt_pin + "; pt_token=" + pt_token + "; pwdt_id=" + pwdt_id + "; s_key=" + s_key + "; s_pin=" + s_pin + "; wq_skey="
     var userCookie = "pt_key=" + pt_key + ";pt_pin=" + pt_pin + ";";
-    console.log("\n############  登录成功，获取到 Cookie  #############\n\n");
+    console.log("\n############  登录成功，获取到 Cookie  #############\n");
     console.log('Cookie1="' + userCookie + '"\n');
-    console.log("\n####################################################\n\n");
+    console.log("\n####################################################\n");
     return userCookie;
 }
 
