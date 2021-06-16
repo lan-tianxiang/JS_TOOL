@@ -43,20 +43,17 @@
                 <div style="margin-left: 0.5em;">
                     <button id="jd_list" class="cmd-btn" title="列出活动脚本">列出活动脚本</button>
                     <button id="update" title="更新脚本文件">更新脚本文件</button>
-                    <button id="jd_get_share_code" class="cmd-btn" title="获取互助码">按账号输出助力码</button>
                     <button id="helpcode" title="格式化所有互助码">自动配置互助码</button>
                     <button id="jd_clean" title="删除日志">删除日志</button>
                     <br />
                 </div>
                 <form class="run-cmd-form" action="runCmd" method="POST">
                     <div class="cmd-section" style="margin-left: 0.5em;">
-                        <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称（jd_xxx）" required>
+                        <input id="jdScript" name="jdScript" type="text" placeholder="脚本名称（jd_xxx）" required>
                     </div>
-                    <input style="width: 60px;height: 30px" type="submit" id="runCmd" class="ant-btn ant-btn-primary"
-                        value="执行">
+                    <input style="width: 60px;height: 30px" type="submit" id="runCmd" class="ant-btn ant-btn-primary" value="执行">
                     &#12288;<p>
-                        <font color="#000000" size="2">温馨提示：只能手动执行的活动名，执行其他请进入终端操作。若执行活动脚本期间卡住或想停止运行，刷新页面即可。
-                        </font>
+                        <font color="#000000" size="2">温馨提示：只能手动执行的活动名，执行其他请进入终端操作。若执行活动脚本期间卡住或想停止运行，刷新页面即可。</font>
                     </p>
                 </form>
                 <br />
@@ -95,7 +92,7 @@
                 editor.setValue('');
 
                 const jsName = this.id === 'jd_list' ? '' : this.id;
-                const cmd = jsName ? `bash jd.sh ${jsName} now` : 'bash jd.sh';
+                const cmd = jsName ? `jd ${jsName} now` : 'jd';
                 $.post('./runCmd', {
                     cmd: cmd
                 }, function (data) {
@@ -133,6 +130,10 @@
                         case 'jd_clean':
                             confirmTxt = '确认删除日志？';
                             cmd = `jd clean`;
+                            break;
+                        case '较快运行所有脚本':
+                            confirmTxt = '确认执行？';
+                            cmd = `jd runall2`;
                             break;
                         default:
                             break;
@@ -184,7 +185,7 @@
                 editor.setValue('');
 
                 const jsName = this.id === 'jd_list' ? '' : this.id;
-                const cmd = `bash jd.sh ${jdScript} now`;
+                const cmd = `jd ${jdScript} now`;
                 $.post('./runCmd', {
                     cmd: cmd,
                     delay: 500
