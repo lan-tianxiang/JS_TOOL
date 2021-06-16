@@ -41,37 +41,15 @@
             <header>
                 <h1>脚本执行工具</h1>
                 <div style="margin-left: 0.5em;">
-                    <button id="wrap" class="cmd-btn" title="切换换行">切换换行</button>
-                    <button id="move-bottom" class="cmd-btn" title="跳转底部">跳转底部</button>
                     <button id="update" title="更新脚本文件">更新脚本文件</button>
                     <button id="jd_get_share_code" class="cmd-btn" title="获取互助码">按账号输出助力码</button>
                     <button id="helpcode" title="格式化所有互助码">自动配置互助码</button>
                     <button id="jd_clean" title="删除日志">删除日志</button>
-                    <button id="jd_crazy_joy_coin" class="cmd-btn" title="运行挂机活动">运行挂机活动</button>
-                    <button id="hangup" title="启动/重启后台挂机程序">启动/重启后台挂机程序</button>
-                    <button id="crazy_joy_coin" title="停止后台挂机程序">停止后台挂机程序</button>
-                    <button id="resetpwd" title="重置控制面板用户名和密码">重置控制面板用户名和密码</button>
-                    <br />
-                    <button id="jd_list" class="cmd-btn" title="列出活动脚本">列出活动脚本</button>
-                    <button id="jd_bean_change" class="cmd-btn" title="京豆变动通知">京豆变动通知</button>
-                    <button id="jd_unsubscribe" class="cmd-btn" title="取关店铺和商品">取关店铺和商品</button>
-                    <button id="jd_fruit" class="cmd-btn" title="东东农场">东东农场</button>
-                    <button id="jd_pet" class="cmd-btn" title="东东萌宠">东东萌宠</button>
-                    <button id="jd_plantBean" class="cmd-btn" title="种豆得豆">种豆得豆</button>
-                    <button id="jd_jdfactory" class="cmd-btn" title="东东工厂">东东工厂</button>
-                    <button id="jd_dreamFactory" class="cmd-btn" title="京喜工厂">京喜工厂</button>
-                    <button id="jd_jdzz" class="cmd-btn" title="京东赚赚">京东赚赚</button>
-                    <button id="jd_crazy_joy" class="cmd-btn" title="疯狂的JOY">疯狂的JOY</button>
-                    <button id="jd_bookshop" class="cmd-btn" title="口袋书店">口袋书店</button>
-                    <button id="jd_cash" class="cmd-btn" title="签到领现金">签到领现金</button>
-                    <button id="jd_jxnc" class="cmd-btn" title="京喜农场">京喜农场</button>
-                    <button id="jd_sgmh" class="cmd-btn" title="闪购盲盒">闪购盲盒</button>
-                    <button id="jd_cfd" class="cmd-btn" title="京喜财富岛">京喜财富岛</button>
                     <br />
                 </div>
                 <form class="run-cmd-form" action="runCmd" method="POST">
                     <div class="cmd-section" style="margin-left: 0.5em;">
-                        <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称" required>
+                        <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称（jd_xxx）" required>
                     </div>
                     <input style="width: 60px;height: 30px" type="submit" id="runCmd" class="ant-btn ant-btn-primary"
                         value="执行">
@@ -139,37 +117,21 @@
             });
 
 
-            $('#update, #helpcode, #hangup, #jd_clean, #resetpwd, #jd_delCoupon, #crazy_joy_coin, #run_all')
+            $('#update, #helpcode, #jd_clean, #run_all')
                 .click(function () {
                     let confirmTxt, cmd;
                     switch (this.id) {
                         case 'update':
                             confirmTxt = '确认更新项目文件与活动脚本？';
-                            cmd = `bash jd.sh ${this.id}`;
+                            cmd = `jd ${this.id}`;
                             break;
                         case 'helpcode':
                             confirmTxt = '更新并输出互助码？';
-                            cmd = `bash jd.sh myhelp`;
-                            break;
-                        case 'hangup':
-                            confirmTxt = '确认启动/重启挂机程序？';
-                            cmd = `bash jd.sh ${this.id}`;
+                            cmd = `jd myhelp`;
                             break;
                         case 'jd_clean':
                             confirmTxt = '确认删除日志？';
-                            cmd = `bash jd.sh clean`;
-                            break;
-                        case 'resetpwd':
-                            confirmTxt = '确认重置用户名与密码？';
-                            cmd = `bash jd.sh ${this.id}`;
-                            break;
-                        case 'jd_delCoupon':
-                            confirmTxt = '确认删除优惠券（存在误删，谨慎操作）？';
-                            cmd = `bash jd.sh ${this.id}`;
-                            break;
-                        case 'crazy_joy_coin':
-                            confirmTxt = '确认停止后台挂机程序？';
-                            cmd = `pm2 stop jd_${this.id}`;
+                            cmd = `jd clean`;
                             break;
                         default:
                             break;
