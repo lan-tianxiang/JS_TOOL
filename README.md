@@ -2,9 +2,8 @@
 [![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=lan-tianxiang&show_icons=true&theme=radical&repo=jd_shell)](https://github.com/lan-tianxiang/js_tool)
 -->
 
-### 新旧版本同时更新  答疑交流QQ群967451175
-V3版（原版） https://github.com/lan-tianxiang/jd_shell
-A1版（较新） https://github.com/lan-tianxiang/js_tool
+### 旧版暂停更新，忙不过来  答疑交流QQ群967451175
+A1版（新版） https://github.com/lan-tianxiang/js_tool
 
 
 <p align="center">
