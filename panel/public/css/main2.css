@@ -29,17 +29,3 @@
     -moz-border-radius: 11px 11px 11px 11px;
     -webkit-border-radius: 11px 11px 11px 11px;
 }
-
-.login-form input[type="submit"] {
-    width: 100%;
-    padding: 15px;
-    background-color: #6D8A88;
-    border: 0;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-weight: bold;
-    color: #ffffff;
-    border-radius: 11px 11px 11px 11px;
-    -moz-border-radius: 11px 11px 11px 11px;
-    -webkit-border-radius: 11px 11px 11px 11px;
-}
