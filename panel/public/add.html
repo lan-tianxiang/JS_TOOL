@@ -12,7 +12,6 @@
   <title>JSTOOL控制面板</title>
   <script type="text/javascript" src="./js/jquery.min.js"></script>
   <script type="text/javascript" src="./js/sweetalert2.js"></script>
-  <link rel="stylesheet" type="text/css" href="./css/main.css">
   <link href="./css/layui.css" rel="stylesheet" type="text/css">
   <link href="./css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="./css/index_style.css" rel="stylesheet" type="text/css">
@@ -24,20 +23,20 @@
       <div class="page1">
         <div class="nav wow zoomIn animated" data-wow-duration="2s"
           style="visibility: visible; animation-duration: 2s; animation-name: zoomIn;">
-          <h1>JSTOOL控制面板</h1>
           <div class="login-form">
+            <h1>JSTOOL控制面板</h1>
             <form action="auth" method="POST">
               <input type="text" name="username" class="username" placeholder="用户名" required>
               <input type="password" name="password" class="password" placeholder="密码" required>
+              <!--<input id="msg" type="text" placeholder="请输入备注信息，方便管理员识别账号"/>-->
+              <button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="qrcode">扫码添加账号</button>
+              <!--<button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="jdcode">口令登录</button>-->
+              <!--<button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="jumpapp">京东登录</button>-->
               <input type="submit" id="login" value="登录">
+              <a class="layui-btn layui-btn-normal" style="margin-top: 20px"
+              href="https://jq.qq.com/?_wv=1027&k=">JSTOOL交流裙</a>
             </form>
           </div>
-          <!--<input id="msg" type="text" placeholder="请输入备注信息，方便管理员识别账号"/>-->
-          <button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="qrcode">扫码添加账号</button>
-          <!--<button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="jdcode">口令登录</button>-->
-          <!--<button class="layui-btn layui-btn-normal" style="margin-top: 20px" id="jumpapp">京东登录</button>-->
-          <a class="layui-btn layui-btn-normal" style="margin-top: 20px"
-            href="https://jq.qq.com/?_wv=1027&k=">JSTOOL交流裙</a>
         </div>
         <script src="./js/qrcode.min.js"></script>
         <style type="text/css">
