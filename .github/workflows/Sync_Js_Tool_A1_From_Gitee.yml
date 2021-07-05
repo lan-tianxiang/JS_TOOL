@@ -1,8 +1,5 @@
 name: Sync_Js_Tool_From_Gitee
 on:
-  push:
-    branches:
-      - A1
   workflow_dispatch:
   schedule:
     - cron: '*/10 * * * *'
