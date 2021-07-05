@@ -1,7 +1,7 @@
 /* Login page */
 .login-form {
-    width: 300px;
-    height: 450px;
+    width: auto;
+    height: auto;
     position: absolute;
     top: 0;
     left: 0;
