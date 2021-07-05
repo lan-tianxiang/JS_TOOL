@@ -46,7 +46,7 @@
                     <button id="update" title="更新脚本文件">更新脚本文件</button>
                     <button id="helpcode" title="格式化所有互助码">自动配置互助码</button>
                     <button id="jd_clean" title="删除日志">删除日志</button>
-                    <button id="runall2" title="较快运行所有脚本">较快运行所有脚本</button>
+                    <button id="runall" title="运行所有脚本">较快运行所有脚本</button>
                     <br />
                 </div>
                 <form class="run-cmd-form" action="runCmd" method="POST">
@@ -117,7 +117,7 @@
             });
 
 
-            $('#update, #helpcode, #jd_clean, #runall2')
+            $('#update, #helpcode, #jd_clean, #runall')
                 .click(function () {
                     let confirmTxt, cmd;
                     switch (this.id) {
@@ -133,7 +133,7 @@
                             confirmTxt = '确认删除日志？';
                             cmd = `jd clean`;
                             break;
-                        case 'runall2':
+                        case 'runall':
                             confirmTxt = '确认执行？';
                             cmd = `jd ${this.id}`;
                             break;
