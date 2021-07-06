@@ -103,7 +103,7 @@ button.blue:active {
 }
 
 #qrcontainer .qframe {
-  background-color: #ffffff;
+  background-color: #f8f8f8;
   padding: 1rem;
   border-radius: 0.5rem;
   border: #6d8a88 1px solid;
@@ -145,14 +145,12 @@ button.blue:active {
 }
 #qrcontainer .qframe .info {
 	padding: 5px;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     /* line-height: 1.5; */
     border-radius: 10px;
 	border: 0px solid rgba(12,0,51,.1);
 	margin-top: 3px;
-
-			
-		 
+	box-shadow: 0 0 0 2px #007fd3;
 }
 #qrcontainer .qframe-close{
 	
@@ -174,8 +172,8 @@ button.blue:active {
     text-align: center;
     color: #aaaaaa;
     border-radius: 6px;
-	background-color: #f8f8f8;
-	/* box-shadow: 0 0 0 1px #21b2a6; */
+	background-color: #ffffff;
+	box-shadow: 0 0 0 2px #007fd3;
 	font-size: 16px;
     line-height: 2.5em;
 }
