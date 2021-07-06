@@ -68,6 +68,7 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./qrcode?t=' + timeStamp, function (data) {
       if (data.err == 0) {
+        $('#qrcontainer').removeClass('hidden');
         $('.landing').addClass('is-loading');
         qrcode.clear();
         qrcode.makeCode(data.qrcode);
