@@ -173,7 +173,8 @@
 
                 <h4 class="mt-4">or, your can watch on</h4>
                 <ul class="social mt-1">
-                    <li><a href="https://github.com/lan-tianxiang"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+                    <li><a href="https://github.com/lan-tianxiang"><i class="fab fa-github" aria-hidden="true"></i></a>
+                    </li>
                     <li><a href="https://t.me/jstool"><i class="fab fa-telegram" aria-hidden="true"></i></a></li>
                 </ul>
                 <footer>
@@ -189,7 +190,34 @@
     <script type="text/javascript" src="./js/main.js"></script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript" src="./js/jd.js?1234"></script>
+
 </body>
+
+<script>
+    $.ajaxSetup({
+        cache: false
+    });
+
+    $("#login").click(function () {
+        $user = $(".username").val();
+        $password = $(".password").val();
+        if (!$user || !$password) return;
+
+        $.post('./login', {
+            username: $user,
+            password: $password
+        }, function (data) {
+            if (data.err == 0) {
+                window.location.href = "./usrconfig";
+            } else {
+                Swal.fire({
+                    text: data.msg,
+                    icon: 'error'
+                })
+            }
+        });
+        return false;
+    });
+</script>
 
 </html>
