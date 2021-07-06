@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线登入</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+    <script type="text/javascript" src="./js/skel.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/other.css?12345">
+</head>
+
+<body class="landing">
+    <div id="page-wrapper">
+
+        <section id="banner">
+            <div class="inner">
+                <!--  <h1>啊</h1>-->
+                <h2>JSTOOL</h2>
+                <p>点击下方按钮开始使用</p>
+                <ul class="actions">
+                    <li><a id="GetQrCode" class="button special" title="手机扫描二维码登录">二维码登录</a>
+                    <li><a id="JumpToApp" class="button special" title="APP登录">跳转APP登录</a>
+                    <li><a id="BeanChange" class="button special" title="走势图" href="./BeanChange.html">走势图</a>
+                    </li>
+                </ul>
+                <p>
+                    <!--<a href="http://www.highdimen.com" target="_blank" style="color:yellow;font-weight:bold">[备用扫码]</a>-->
+                    <!--<a href="https://t.me/jstool" target="_blank" style="color:red;font-weight:bold"> [TG群]</a><br>-->
+                    <!--<a style="color:#00effb;font-weight:bold"> [全自动运行]</a>-->
+                    <br /> <a style="font-size:12px;"> App确认后即可（无视升级提示） </a>
+                </p>
+
+                <div class="more">
+                    <a class="qq_group" id="qq_group" target="_blank" href="https://t.me/jstool">
+                        <!--<img border="0" src="static/image/qq.png" alt="联系客服" title="联系客服">-->
+                    </a>
+                    <br />TG群
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="qrcontainer" class="hidden">
+        <div class="qframe" id="qframe">
+            <div id="refresh_qrcode" class="hidden">
+                <div>
+                    <h3>二维码已失效</h3>
+                    <div class="refresh">刷新</div>
+                </div>
+            </div>
+            <div id="qrcode"></div>
+            <div class="ps-box">
+                <input type="text" id="ps" placeholder="扫码前可输入联系方式QQ/微信">
+            </div>
+            <div class="info">
+                <a style="color:red;">请使用京东APP扫码【可截图扫】</a>
+                <br> <a style="color:#fe2d46;font-weight:bold">CK有效期一个月（过期请重扫）</a>
+                <br>
+            </div>
+            <div class="qframe-close" title="关闭">✖</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/jd1.js?1234567"></script>
+</body>
+
+</html>
