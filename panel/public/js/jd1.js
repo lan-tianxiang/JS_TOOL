@@ -31,6 +31,9 @@ $(document).ready(function () {
     correctLevel: QRCode.CorrectLevel.L,
   });
 
+  $("#qrcontainer").addClass("hidden");
+  $("#refresh_qrcode").addClass("hidden");
+
   function checkLogin(user) {
     var timeId = setInterval(() => {
       let timeStamp = new Date().getTime();
@@ -39,19 +42,15 @@ $(document).ready(function () {
       $.post(`./cookie2?t=${timeStamp}`, { user, msg }, function (data) {
         if (data.err == 0) {
           clearInterval(timeId);
-          $('#qrcontainer').addClass('hidden');
-          $('#refresh_qrcode').addClass('hidden');
           userCookie = data.cookie;
           msg = data.msg;
           Swal.fire({
             title: msg || '🎈添加成功🎈',
-            /*
             html:
               '<div class="cookieCon" style="font-size:12px;">' +
               userCookie +
               '</div>',
             text: userCookie,
-            */
             icon: 'success',
             confirmButtonText: '返回',
           }).then((result) => {
@@ -69,8 +68,6 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./qrcode?t=' + timeStamp, function (data) {
       if (data.err == 0) {
-        $('#qrcontainer').removeClass('hidden');
-        $('#refresh_qrcode').addClass('hidden');
         $('.landing').addClass('is-loading');
         qrcode.clear();
         qrcode.makeCode(data.qrcode);
