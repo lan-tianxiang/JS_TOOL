@@ -150,7 +150,6 @@ button.blue:active {
     border-radius: 10px;
 	border: 0px solid rgba(12,0,51,.1);
 	margin-top: 3px;
-	box-shadow: 0 0 0 2px #007fd3;
 }
 #qrcontainer .qframe-close{
 	
