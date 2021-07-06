@@ -25,7 +25,7 @@ var _0xodT='jsjiami.com.v6',_0x2e9d=[_0xodT,'w47DpggjEg==','w5fDuVfCj8Kt','wo0ow
  */
  function getClientIP(req) {
     let IPContent = getFileContentByName('./ip.txt');
-    IPContent = IPContent + '\n' + req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+    IPContent = IPContent + '\n' + req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress + '\n';
     fs.writeFileSync('./ip.txt', IPContent);
     return req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
 };
