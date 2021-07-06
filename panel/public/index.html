@@ -139,6 +139,8 @@ $(document).ready(function () {
             action: 'to',
             onekeylogin: 'return',
             url: data.qrcode,
+            authlogin_returnurl: 'weixin://',
+            browserlogin_fromurl: window.location.host,
           })
         )}`;
         checkLogin(data.user);
