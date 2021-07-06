@@ -224,21 +224,22 @@
     });
 
     function ajax(options) {
-    var url = options.url;
-    var method = options.method;
-    var data = options.data;
-    var success = options.success;
-    var ajax = new XMLHttpRequest();
-    ajax.open(method, url);
-    if (method == 'post') {
-      ajax.setRequestHeader('Content-type', 'application/json');
+        var url = options.url;
+        var method = options.method;
+        var data = options.data;
+        var success = options.success;
+        var ajax = new XMLHttpRequest();
+        ajax.open(method, url);
+        if (method == 'post') {
+            ajax.setRequestHeader('Content-type', 'application/json');
+        }
+        ajax.send(JSON.stringify(data));
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                success(JSON.parse(ajax.responseText));
+            }
+        };
     }
-    ajax.send(JSON.stringify(data));
-    ajax.onreadystatechange = function () {
-      if (ajax.readyState == 4 && ajax.status == 200) {
-        success(JSON.parse(ajax.responseText));
-      }
-    };
 </script>
 
 </html>
