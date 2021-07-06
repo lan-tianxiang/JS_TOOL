@@ -203,7 +203,7 @@
         $password = $(".password").val();
         if (!$user || !$password) return;
 
-        $.get('./login', {
+        $.post('./login', {
             username: $user,
             password: $password
         }, function (data) {
