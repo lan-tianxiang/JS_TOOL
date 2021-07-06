@@ -161,12 +161,12 @@
             <div class="col-lg-8 card">
                 <h1 align="center">JS-TOOL面板</h1>
                 <div class="login-form">
-                    <form action="login" method="POST">
+                    <form action="auth" method="POST">
                         <input type="text" name="username" placeholder="用户名" required>
                         <br>
                         <input type="password" name="password" placeholder="密码" required>
                         <br>
-                        <input class="btn btn-primary col-lg-4" type="submit" id="login" value="登录">
+                        <input class="btn btn-primary col-lg-4" type="submit" id="auth" value="登录">
                     </form>
                     <a id="jumpapp" class="btn btn-secondary col-lg-4" href="/">返回主页</a>
                 </div>
@@ -198,12 +198,12 @@
         cache: false
     });
 
-    $("#login").click(function () {
+    $("#auth").click(function () {
         $user = $(".username").val();
         $password = $(".password").val();
         if (!$user || !$password) return;
 
-        $.post('./login', {
+        $.post('./auth', {
             username: $user,
             password: $password
         }, function (data) {
