@@ -42,7 +42,7 @@ $(document).ready(function () {
           $('#qrcontainer').addClass('hidden');
           $('#refresh_qrcode').addClass('hidden');
           userCookie = data.cookie;
-          msg = data.msg || '无备注';
+          msg = data.msg;
           Swal.fire({
             title: msg || '🎈添加成功🎈',
             /*
@@ -88,9 +88,6 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./qrcode?t=' + timeStamp, function (data) {
       if (data.err == 0) {
-        $('#qrcontainer').removeClass('hidden');
-        $('#refresh_qrcode').addClass('hidden');
-        $('.landing').addClass('is-loading');
         window.location.href = `openapp.jdmobile://virtual/ad?params=${encodeURI(
           JSON.stringify({
             category: 'jump',
