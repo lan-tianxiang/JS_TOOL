@@ -3,20 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <title>控制面板</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <meta name="description" content="JSTOOL">
     <meta name="keywords" content="JSTOOL">
-    <title>控制面板</title>
-    <link rel="icon" type="image/ico" href="https://pic.baixiongz.com/uploads/2021/01/15/c4337817da14a.ico">
+    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/cjl0372/cjl0372.github.io@master/style.css">
-    <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/sweetalert2.js"></script>
-    <link rel="icon" type="image/x-icon" href="https://gitee.com/favicon.ico" />
     <style type="text/css">
         body,
         html {
@@ -165,16 +164,15 @@
             <div class="col-lg-8 card">
                 <h1 align="center">JS-TOOL面板</h1>
                 <div class="login-form">
-                    <form action="login" method="POST">
-                        <input type="text" name="username" placeholder="用户名" required>
+                    <form action="auth" method="POST">
+                        <input type="text" name="username" class="username" placeholder="用户名" required>
                         <br>
-                        <input type="password" name="password" placeholder="密码" required>
+                        <input type="password" name="password" class="password" placeholder="密码" required>
                         <br>
                         <input class="btn btn-primary col-lg-4" type="submit" id="login" value="登录">
                     </form>
                     <a id="jumpapp" class="btn btn-secondary col-lg-4" href="/">返回主页</a>
                 </div>
-
                 <h4 class="mt-4">or, your can watch on</h4>
                 <ul class="social mt-1">
                     <li><a href="https://github.com/lan-tianxiang"><i class="fab fa-github" aria-hidden="true"></i></a>
@@ -223,23 +221,46 @@
         return false;
     });
 
-    function ajax(options) {
-        var url = options.url;
-        var method = options.method;
-        var data = options.data;
-        var success = options.success;
-        var ajax = new XMLHttpRequest();
-        ajax.open(method, url);
-        if (method == 'post') {
-            ajax.setRequestHeader('Content-type', 'application/json');
-        }
-        ajax.send(JSON.stringify(data));
-        ajax.onreadystatechange = function () {
-            if (ajax.readyState == 4 && ajax.status == 200) {
-                success(JSON.parse(ajax.responseText));
-            }
-        };
-    }
+    (function ($) {
+        skel
+            .breakpoints({
+                xlarge: '(max-width: 1680px)',
+                large: '(max-width: 1280px)',
+                medium: '(max-width: 980px)',
+                small: '(max-width: 736px)',
+                xsmall: '(max-width: 480px)'
+            });
+        $(function () {
+
+            var $window = $(window),
+                $body = $('body'),
+                $wrapper = $('#page-wrapper'),
+                $banner = $('#banner'),
+                $header = $('#header');
+
+            // Disable animations/transitions until the page has loaded.
+            $body.addClass('is-loading');
+
+            $window.on('load', function () {
+                window.setTimeout(function () {
+                    $body.removeClass('is-loading');
+                }, 100);
+            });
+
+            // Mobile?
+            if (skel.vars.mobile)
+                $body.addClass('is-mobile');
+            else
+                skel
+                    .on('-medium !medium', function () {
+                        $body.removeClass('is-mobile');
+                    })
+                    .on('+medium', function () {
+                        $body.addClass('is-mobile');
+                    });
+        });
+
+    })(jQuery);
 </script>
 
 </html>
