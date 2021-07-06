@@ -103,7 +103,7 @@ button.blue:active {
 }
 
 #qrcontainer .qframe {
-  background-color: #f8f8f8;
+  background-color: #ffffff;;
   padding: 1rem;
   border-radius: 0.5rem;
   border: #6d8a88 1px solid;
@@ -139,7 +139,7 @@ button.blue:active {
   line-height: 30px;
   opacity: 1;
   z-index: 19;
-  color: #fbfbfb;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
