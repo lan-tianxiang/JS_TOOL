@@ -86,7 +86,6 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./qrcode?t=' + timeStamp, function (data) {
       if (data.err == 0) {
-        $('#qrcontainer').removeClass('hidden');
         $('#refresh_qrcode').addClass('hidden');
         $('.landing').addClass('is-loading');
         window.location.href = `openapp.jdmobile://virtual/ad?params=${encodeURI(
