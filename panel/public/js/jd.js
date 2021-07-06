@@ -7,7 +7,7 @@ $("#login").click(function () {
   $password = $(".password").val();
   if (!$user || !$password) return;
 
-  $.post('./auth', {
+  $.post('./login', {
     username: $user,
     password: $password
   }, function (data) {
