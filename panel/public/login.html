@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>控制面板</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <meta name="description" content="JSTOOL">
+    <meta name="keywords" content="JSTOOL">
+    <link rel="icon" type="image/ico" href="https://pic.baixiongz.com/uploads/2021/01/15/c4337817da14a.ico">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/cjl0372/cjl0372.github.io@master/style.css">
+    <style type="text/css">
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        #qrcontainer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        #qrcontainer.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #qrcontainer .qframe {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: #6d8a88 1px solid;
+            -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        #qrcontainer .qframe #refresh_qrcode {
+            width: 270px;
+            height: 270px;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            left: 1rem;
+            top: 1rem;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #qrcontainer .qframe #refresh_qrcode.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #qrcontainer .qframe #refresh_qrcode h3 {
+            font-weight: normal;
+        }
+
+        #qrcontainer .qframe #refresh_qrcode .refresh {
+            display: block;
+            background: #e4393c;
+            width: 80px;
+            height: 30px;
+            margin: 0 auto;
+            line-height: 30px;
+            opacity: 1;
+            z-index: 19;
+            color: #fbfbfb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #qrcontainer .qframe .info {
+            padding: 5px;
+            background-color: #f8f8f8;
+            /* line-height: 1.5; */
+            border-radius: 10px;
+            border: 1px solid rgba(12, 0, 51, .1);
+            margin-top: 3px;
+        }
+
+        #qrcontainer .qframe-close {
+
+            /* padding-top: 5px; */
+        }
+
+        #qrcontainer .ps-box {
+            padding: 5px 0;
+            border-radius: 10px;
+        }
+
+        #qrcontainer .ps-box input {
+            width: 100%;
+            -webkit-border-radius: .08rem;
+            border-radius: .08rem;
+            border: 1px solid rgba(12, 0, 51, .1);
+            margin-top: .24rem;
+            text-align: center;
+            color: #aaaaaa;
+            border-radius: 6px;
+            background-color: #f8f8f8;
+            /* box-shadow: 0 0 0 1px #21b2a6; */
+            font-size: 16px;
+            line-height: 2.5em;
+        }
+
+        #qrcontainer .ps-box input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #21b2a6;
+        }
+
+        .login-form {
+            padding: 5px 0;
+            border-radius: 10px;
+        }
+
+        .login-form input[type="password"],
+        .login-form input[type="text"] {
+            width: 100%;
+            -webkit-border-radius: .08rem;
+            border-radius: .08rem;
+            border: 1px solid rgba(12, 0, 51, .1);
+            margin-top: .24rem;
+            text-align: left;
+            color: #aaaaaa;
+            border-radius: 6px;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 1px #000000;
+            font-size: 16px;
+            line-height: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #21b2a6;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" class="container">
+        <div class="row my-card justify-content-center">
+            <div class="col-lg-4 photo-bg"></div>
+            <div class="col-lg-8 card">
+                <h1 align="center">JS-TOOL面板</h1>
+                <div class="login-form">
+                    <form action="auth" method="POST">
+                        <input type="text" name="username" placeholder="用户名" required>
+                        <br>
+                        <input type="password" name="password" placeholder="密码" required>
+                        <br>
+                        <input class="btn btn-primary col-lg-4" type="submit" id="login" value="登录">
+                    </form>
+                    <a id="jumpapp" class="btn btn-secondary col-lg-4" href="/">返回主页</a>
+                </div>
+
+                <h4 class="mt-4">or, your can watch on</h4>
+                <ul class="social mt-1">
+                    <li><a href="https://github.com/lan-tianxiang"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+                    <li><a href="https://t.me/jstool"><i class="fab fa-telegram" aria-hidden="true"></i></a></li>
+                </ul>
+                <footer>
+                    <p>Copyright 2021</p>
+
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!--弹窗-->
+    <script type="text/javascript" src="./js/skel.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="./js/jd.js?123"></script>
+</body>
+
+</html>
