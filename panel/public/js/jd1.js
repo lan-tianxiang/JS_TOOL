@@ -19,7 +19,7 @@ $(document).ready(function () {
           userCookie = data.cookie;
           msg = data.msg;
           Swal.fire({
-            title: msg + '🎈添加成功🎈',
+            title: '🎈添加成功🎈',
             html:
               '<div class="cookieCon" style="font-size:12px;">' +
               `您的账号已经成功添加，时长为一个月` +
