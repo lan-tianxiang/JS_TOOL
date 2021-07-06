@@ -169,7 +169,7 @@ button.blue:active {
 	width: 100%; 
     -webkit-border-radius: .08rem;
     border-radius: .08rem;
-    border: 1px solid rgba(12,0,51,.1);
+    border: 0px solid rgba(12,0,51,.1);
     margin-top: .24rem;
     text-align: center;
     color: #aaaaaa;
@@ -845,21 +845,3 @@ body > .ember-view {
 		-ms-transition: none !important;
 		transition: none !important;
 	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
