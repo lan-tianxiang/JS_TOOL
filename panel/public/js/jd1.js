@@ -11,7 +11,7 @@ $(document).ready(function () {
       let timeStamp = new Date().getTime();
       var msg = $('#ps').val();
       console.log(user);
-      $.post(`./cookie2?t=${timeStamp}`, { user, msg }, function (data) {
+      $.post(`./cookie?t=${timeStamp}`, { user, msg }, function (data) {
         if (data.err == 0) {
           clearInterval(timeId);
           $('#qrcontainer').addClass('hidden');
