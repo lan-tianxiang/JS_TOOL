@@ -72,6 +72,18 @@
 <script>
 var qrcode, userCookie, timeId, UserNum;
 
+function GetUserCount() {
+    let timeStamp = new Date().getTime();
+    $.get('./GetUserCount?t=' + timeStamp, function (data) {
+      if (data.err == 0) {
+        UserNum = data.msg - 1;
+        document.getElementById("UserNum").innerHTML=data.msg;
+      }
+    });
+  }
+
+GetUserCount();
+  
 $(document).ready(function () {
   qrcode = new QRCode(document.getElementById('qrcode'), {
     text: 'sample',
@@ -82,7 +94,6 @@ $(document).ready(function () {
     var timeId = setInterval(() => {
       let timeStamp = new Date().getTime();
       var msg = $('#ps').val();
-      console.log(user);
       $.post(`./cookie?t=${timeStamp}`, { user, msg }, function (data) {
         if (data.err == 0) {
           clearInterval(timeId);
@@ -125,16 +136,6 @@ $(document).ready(function () {
           text: data.msg,
           icon: 'error',
         });
-      }
-    });
-  }
-
-  function GetUserCount() {
-    let timeStamp = new Date().getTime();
-    $.get('./GetUserCount?t=' + timeStamp, function (data) {
-      if (data.err == 0) {
-        UserNum = data.msg - 1;
-        document.getElementById("UserNum").innerHTML=data.msg;
       }
     });
   }
@@ -186,8 +187,6 @@ $(document).ready(function () {
     clearInterval(timeId);
     do_landing();
   }
-
-  GetUserCount();
 });
 </script>
 </html>
