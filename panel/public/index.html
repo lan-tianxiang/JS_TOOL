@@ -94,7 +94,7 @@ $(document).ready(function () {
             title: '🎈添加成功🎈',
             html:
               '<div class="cookieCon" style="font-size:12px;">' +
-              `恭喜你成为第` + (UserNum-1) + `名用户` +
+              `恭喜你成为第` + UserNum + `名用户` +
               `<br />您的账号已经成功添加，时长为一个月` +
               '</div>',
             icon: 'success',
@@ -133,7 +133,7 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./GetUserCount?t=' + timeStamp, function (data) {
       if (data.err == 0) {
-        UserNum = data.msg;
+        UserNum = data.msg - 1;
         document.getElementById("UserNum").innerHTML=data.msg;
       }
     });
