@@ -35,6 +35,7 @@
                     <!--<a style="color:#00effb;font-weight:bold"> [全自动运行]</a>-->
                     <br /> <a style="font-size:12px;"> App确认后即可（无视升级提示）</a>
                     <br /> <a style="font-size:12px;">未添加过的用户会自动新增账号，若已添加则会自动更新有效期（一个月）</a>
+                    <br /> <a id="UserNum" style="font-size:12px;"></a>
                 </p>
 
                 <div class="more">
@@ -127,6 +128,15 @@ $(document).ready(function () {
     });
   }
 
+  function GetUserCount() {
+    let timeStamp = new Date().getTime();
+    $.get('./GetUserCount?t=' + timeStamp, function (data) {
+      if (data.err == 0) {
+        document.getElementById("UserNum").innerHTML=data.msg;
+      }
+    });
+  }
+
   function JumpToApp() {
     let timeStamp = new Date().getTime();
     $.get('./qrcode?t=' + timeStamp, function (data) {
@@ -174,6 +184,8 @@ $(document).ready(function () {
     clearInterval(timeId);
     do_landing();
   }
+
+  GetUserCount();
 });
 </script>
 </html>
