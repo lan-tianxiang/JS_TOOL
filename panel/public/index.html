@@ -132,6 +132,7 @@ $(document).ready(function () {
     let timeStamp = new Date().getTime();
     $.get('./GetUserCount?t=' + timeStamp, function (data) {
       if (data.err == 0) {
+        UserNum = data.msg;
         document.getElementById("UserNum").innerHTML=data.msg;
       }
     });
