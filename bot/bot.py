@@ -15,13 +15,13 @@ from asyncio import exceptions
 logging.basicConfig(
     format='%(asctime)s-%(name)s-%(levelname)s=> [%(funcName)s] %(message)s ', level=logging.INFO)
 logger = logging.getLogger(__name__)
-_JdDir = '/jd'
+_JdDir = '/root/jd'
 _ConfigDir = _JdDir + '/config'
 _ScriptsDir = _JdDir + '/scripts'
 _LogDir = _JdDir + '/log'
 _ThirdpardDir = _JdDir +'/thirdpard'
 # 频道id/用户id
-with open('/jd/config/bot.json') as f:
+with open('/root/jd/config/bot.json') as f:
     bot = json.load(f)
 chat_id = bot['user_id']
 # 机器人 TOKEN
