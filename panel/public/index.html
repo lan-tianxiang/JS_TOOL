@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线登入</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/jquery.base64.js"></script>
+    <script type="text/javascript" src="./js/skel.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/other.css?66886666">
+    <link rel="icon" type="image/x-icon" href="https://github.com/favicon.ico" />
+</head>
+
+<body class="landing">
+    <div id="page-wrapper">
+        <section id="banner">
+            <div class="inner">
+                <h2>JSTOOL</h2>
+                <p>点击下方按钮开始使用</p>
+                <ul class="actions">
+                    <li><a id="JumpToApp" class="button special" title="APP登录">跳转京东APP添加</a>
+                    <li><a id="GetQrCode" class="button special" title="手机扫描二维码登录">扫描二维码添加</a>
+                    <li><a id="login" class="button special" title="APP登录" href="./login.html">控制中心</a>
+                    <li><a id="BeanChange" class="button special" title="走势图" href="./BeanChange.html">走势图</a>
+                    </li>
+                </ul>
+                <p>
+                    <!--<a href="http://www.highdimen.com" target="_blank" style="color:yellow;font-weight:bold">[备用扫码]</a>-->
+                    <!--<a href="https://t.me/jstool" target="_blank" style="color:red;font-weight:bold"> [TG群]</a><br>-->
+                    <!--<a style="color:#00effb;font-weight:bold"> [全自动运行]</a>-->
+                    <br /> <a style="font-size:12px;"> App确认后即可（无视升级提示）</a>
+                    <br /> <a style="font-size:12px;">未添加过的用户会自动新增账号，若已添加则会自动更新有效期（一个月）</a>
+                </p>
+
+                <div class="more">
+                    <a class="qq_group" id="qq_group" target="_blank" href="https://t.me/jstool">
+                        <!--<img border="0" src="static/image/qq.png" alt="联系客服" title="联系客服">-->
+                    </a>
+                    <br /> <a id="UserNum" style="font-size:12px;"></a>
+                    <br />欢迎🧡使用
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="qrcontainer" class="hidden">
+        <div class="qframe" id="qframe">
+            <div id="refresh_qrcode" class="hidden">
+                <div>
+                    <h3>二维码已失效</h3>
+                    <div class="refresh">刷新</div>
+                </div>
+            </div>
+            <div id="qrcode"></div>
+            <div class="ps-box">
+                <input type="text" id="ps" placeholder="可在此输入备注名">
+            </div>
+            <div class="info">
+                <a style="color:#aaaaaa;">请使用京东APP扫码</a>
+                <br> <a style="color:#aaaaaa;">有效期为一个月</a>
+                <br>
+            </div>
+            <div class="qframe-close" title="关闭">✖</div>
+        </div>
+    </div>
+</body>
+
+<script>
+var qrcode, userCookie, timeId;
+
+$(document).ready(function () {
+  qrcode = new QRCode(document.getElementById('qrcode'), {
+    text: 'sample',
+    correctLevel: QRCode.CorrectLevel.L,
+  });
+
+  function checkLogin(user) {
+    var timeId = setInterval(() => {
+      let timeStamp = new Date().getTime();
+      var msg = $('#ps').val();
+      $.post(`./cookie?t=${timeStamp}`, { user, msg }, function (data) {
+        if (data.err == 0) {
+          clearInterval(timeId);
+          $('#qrcontainer').addClass('hidden');
+          $('#refresh_qrcode').addClass('hidden');
+          userCookie = data.cookie;
+          msg = data.msg;
+          Swal.fire({
+            title: '🎈添加成功🎈',
+            html:
+              '<div class="cookieCon" style="font-size:12px;">' +
+              `您的账号已经成功添加` +
+              `<br />时长为一个月` +
+              '</div>',
+            icon: 'success',
+            confirmButtonText: '返回',
+          }).then((result) => {
+            do_landing();
+          });
+        } else if (data.err == 21) {
+          clearInterval(timeId);
+          $('#refresh_qrcode').removeClass('hidden');
+        }
+      });
+    }, 3000);
+  }
+
+  function GetQrCode() {
+    let timeStamp = new Date().getTime();
+    $.get('./qrcode?t=' + timeStamp, function (data) {
+      if (data.err == 0) {
+        $('#qrcontainer').removeClass('hidden');
+        $('#refresh_qrcode').addClass('hidden');
+        $('.landing').addClass('is-loading');
+        qrcode.clear();
+        qrcode.makeCode(data.qrcode);
+        checkLogin(data.user);
+      } else {
+        Swal.fire({
+          text: data.msg,
+          icon: 'error',
+        });
+      }
+    });
+  }
+
+  function GetUserCount() {
+    let timeStamp = new Date().getTime();
+    $.get('./GetUserCount?t=' + timeStamp, function (data) {
+      if (data.err == 0) {
+        document.getElementById("UserNum").innerHTML=data.msg;
+      }
+    });
+  }
+
+  function JumpToApp() {
+    let timeStamp = new Date().getTime();
+    $.get('./qrcode?t=' + timeStamp, function (data) {
+      if (data.err == 0) {
+        $('#refresh_qrcode').addClass('hidden');
+        window.location.href = `openapp.jdmobile://virtual/ad?params=${encodeURI(
+          JSON.stringify({
+            category: 'jump',
+            des: 'ThirdPartyLogin',
+            action: 'to',
+            onekeylogin: 'return',
+            url: data.qrcode,
+            authlogin_returnurl: 'weixin://',
+            browserlogin_fromurl: window.location.host,
+          })
+        )}`;
+        checkLogin(data.user);
+      } else {
+        Swal.fire({
+          text: data.msg,
+          icon: 'error',
+        });
+      }
+    });
+  }
+
+  $('.refresh').click(GetQrCode);
+  $('#GetQrCode').click(GetQrCode);
+  $('#JumpToApp').click(JumpToApp);
+
+  $('.qframe-close').click(function () {
+    qframe_close();
+  });
+
+  function do_landing() {
+    window.setTimeout(function () {
+      $('.landing').removeClass('is-loading');
+    }, 100);
+  }
+
+  function qframe_close() {
+    $("#qrcontainer").addClass("hidden");
+    $("#refresh_qrcode").addClass("hidden");
+    //window.location.reload();
+    clearInterval(timeId);
+    do_landing();
+  }
+
+  GetUserCount();
+});
+</script>
+</html>
