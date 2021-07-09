@@ -30,5 +30,5 @@ app.use('/RandomShellEntry', createProxyMiddleware({
 }));
 
 app.listen(5678, () => {
-    console.log('应用正在监听 5678 端口!');
+    console.log('面板运行中!');
 });
