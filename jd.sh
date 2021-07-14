@@ -1481,7 +1481,7 @@ find_file_and_path() {
             cp -f $para $dir_scripts
         fi
         file_name=$file_name_tmp3
-        file_name_all=$file_name_tmp5.$file_last
+        file_name_all=$file_name_tmp3.$file_last
         which_path=$dir_scripts
     fi
 }
