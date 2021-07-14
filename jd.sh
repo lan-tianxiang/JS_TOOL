@@ -1445,29 +1445,28 @@ find_file_and_path() {
     local file_name_tmp5=$(echo $para | perl -pe "s|\.ts||")
     local seek_path="$dir_scripts $dir_scripts/backUp $dir_raw"
     file_name=""
-    file_name_all=""
     which_path=""
 
     for path in $seek_path; do
         if [ -f $path/$file_name_tmp1.js ]; then
             file_name=$file_name_tmp1
-            file_name_all=$file_name_tmp1.js
+            file_name_all=$file_name_tmp1.$file_last
             which_path=$path
             break
         elif [ -f $path/$file_name_tmp2.js ]; then
             file_name=$file_name_tmp2
-            file_name_all=$file_name_tmp2.js
+            file_name_all=$file_name_tmp2.$file_last
             which_path=$path
             break
         elif [ -f $path/$file_name_tmp4.py ]; then
             file_name=$file_name_tmp4
-            file_name_all=$file_name_tmp4.py
+            file_name_all=$file_name_tmp4.$file_last
             which_path=$path
             change_py_path
             break
         elif [ -f $path/$file_name_tmp5.ts ]; then
             file_name=$file_name_tmp5
-            file_name_all=$file_name_tmp5.ts
+            file_name_all=$file_name_tmp5.$file_last
             which_path=$path
             break
         fi
@@ -1482,6 +1481,7 @@ find_file_and_path() {
             cp -f $para $dir_scripts
         fi
         file_name=$file_name_tmp3
+        file_name_all=$file_name_tmp5.$file_last
         which_path=$dir_scripts
     fi
 }
@@ -1627,14 +1627,19 @@ define_program() {
     local p1=$1
     if [[ $p1 == *.js ]]; then
         which_program=node
+        file_last=js
     elif [[ $p1 == *.py ]]; then
         which_program=python3
+        file_last=py
     elif [[ $p1 == *.sh ]]; then
         which_program=bash
+        file_last=sh
     elif [[ $p1 == *.ts ]]; then
         which_program="ts-node-transpile-only"
+        file_last=ts
     else
         which_program=node
+        file_last=js
     fi
 }
 ## 正常运行单个脚本，$1：传入参数
@@ -1654,8 +1659,7 @@ run_normal() {
         cd $which_path
         echo "执行${which_program}"
         [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
-        [[ ! $which_program = node ]] && [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
-        [[ $which_program = node ]] && [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name.js 2>&1 | tee $log_path
+        [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
         run_task_finish "$file_name" 2>&1 | tee -a $log_path
     else
         echo -e "\n $p 脚本不存在，请确认...\n"
