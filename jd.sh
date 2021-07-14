@@ -1808,7 +1808,7 @@ run_specify() {
 detect_system
 link_shell
 define_cmd
-detect_software
+#detect_software
 
 #[ -f $file_cookie ] && IsPinValid
 ## 命令检测
