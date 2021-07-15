@@ -762,7 +762,7 @@ git_pull_scripts() {
     git fetch --all
     exit_status=$?
     git reset --hard $branch
-    git pull
+    #git pull --allow-unrelated-histories
     cd $dir_current
 }
 
