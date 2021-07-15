@@ -1677,32 +1677,8 @@ run_normal() {
         log_path="$dir_log/$file_name/$log_time.log"
         make_dir "$dir_log/$file_name"
         cd $which_path
-        echo "执行${which_program}，路径$file_name_all"
-        [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
-        [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
-        run_task_finish "$file_name" 2>&1 | tee -a $log_path
-    else
-        echo -e "\n $p 脚本不存在，请确认...\n"
-        usage
-    fi
-}
-
-run_normaltest() {
-    local p=$1
-    define_program "$p"
-    #ps -ef | grep $p | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
-    find_file_and_path $p
-    if [[ $file_name ]] && [[ $which_path ]]; then
-        import_config_and_check "$file_name"
-        count_user_sum
-        export_all_env all
-        [[ $# -eq 1 ]] && random_delay
-        log_time=$(date "+%Y-%m-%d-%H-%M-%S")
-        log_path="$dir_log/$file_name/$log_time.log"
-        make_dir "$dir_log/$file_name"
-        cd $which_path
-        echo "执行${which_program}，路径$file_name_all"
-        SecureJs $file_name_all
+        echo "执行${which_program}，路径$which_path/$file_name_all"
+        [[ $which_program = node ]] && [[ $IsSecure = true ]] && SecureJs $file_name_all
         [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
         [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
         run_task_finish "$file_name" 2>&1 | tee -a $log_path
