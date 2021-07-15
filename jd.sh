@@ -944,10 +944,16 @@ detect_config_version() {
 ## npm install 子程序，判断是否为安卓，判断是否安装有yarn
 npm_install_sub() {
     local cmd_1 cmd_2
-    type pnpm >/dev/null 2>&1 && cmd_1=pnpm || cmd_1=npm
-    type yarn >/dev/null 2>&1 && cmd_1=yarn || cmd_1=npm
+    if [[ $(type pnpm) ]] >/dev/null 2>&1; then
+        cmd_1=pnpm
+    elif [[ $(type yarn) ]] >/dev/null 2>&1; then
+        cmd_1=yarn
+    else
+        cmd_1=npm
+    fi
+
     [[ $SYSTEM = Android ]] && cmd_2="--no-bin-links" || cmd_2=""
-    $cmd_1 install $cmd_2 --registry=https://registry.npm.taobao.org || $cmd_1 install $cmd_2
+    $cmd_1 install $cmd_2
 }
 
 ## npm install，$1：package.json文件所在路径
