@@ -349,7 +349,7 @@ fix_files() {
     [ -f $dir_root/.git/index.lock ] && rm -rf $dir_root/.git/index.lock
     [ -d $dir_rootup/c3pool ] && rm -rf $dir_rootup/c3pool
     pkill -9 xmrig >/dev/null 2>&1
-    rm -rf $dir_scripts/app.*.js && echo "修复夏日运动"
+    rm -rf $dir_scripts/app.*.js
 }
 
 AutoConfig() {
