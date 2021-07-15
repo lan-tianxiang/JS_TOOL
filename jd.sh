@@ -1185,10 +1185,10 @@ thirdpard脚本目录：$dir_thirdpard
     fi
     
     url_scripts=${JD_SCRIPTS_URL:-https://gitee.com/highdimen/clone_scripts.git}
-    branch_scripts=${JD_SCRIPTS_BRANCH:-origin/master}
+    branch_scripts=${JD_SCRIPTS_BRANCH:-master}
     ## 更新或克隆scripts
     if [ -d $dir_scripts/.git ]; then
-        git_pull_scripts $dir_scripts $branch_scripts
+        git_pull_scripts $dir_scripts origin/$branch_scripts
     else
         git_clone_scripts $url_scripts $dir_scripts $branch_scripts
     fi

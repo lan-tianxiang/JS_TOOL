@@ -1,4 +1,4 @@
-## Version: v0.16.2
+## Version: v0.16.3
 ## Date: 2021-07-16
 ## Update Content: 新增脚本域名限制（安全选项）,完善主库设定
 
@@ -13,7 +13,7 @@
 ## 部分文件的改动可以考虑用第三方库功能进行替换即可。
 ## 值为空表示使用默认地址
 ## 比如JD_SCRIPTS_URL="https://gitee.com/highdimen/clone_scripts.git"库的地址
-## JD_SCRIPTS_BRANCH="origin/master"库的分支，此项也需填写。
+## JD_SCRIPTS_BRANCH="master"库的分支，此项也需填写。
 JD_SCRIPTS_URL=""
 JD_SCRIPTS_BRANCH=""
 
