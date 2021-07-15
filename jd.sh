@@ -391,7 +391,7 @@ SecureJs() {
         endLine=$(sed -n 'done(t)}}(t,e)}' $file)
 
         sed -i $startLine','$endLine'd' $file
-        cat $file_env_sys >> $file
+        cat $file_env_sys >>$file
     fi
 }
 
@@ -1134,9 +1134,6 @@ UpdateTool() {
     git config --global --unset http.proxy
     ## 导入配置文件，清除缓存
     import_config_no_check
-    [ ! -z $JD_SCRIPTS_URL ] && [[ -z $(grep $JD_SCRIPTS_URL $dir_scripts/.git/config) ]] && rm -rf $dir_scripts
-    [ -z $JD_SCRIPTS_URL ] && [[ -z $(grep $url_scripts $dir_scripts/.git/config) ]] && rm -rf $dir_scripts
-    url_scripts=${JD_SCRIPTS_URL:-https://gitee.com/highdimen/clone_scripts.git}
     #IsPinValid
     ## 在日志中记录时间与路径
     echo "
@@ -1176,11 +1173,21 @@ thirdpard脚本目录：$dir_thirdpard
     [ -f $dir_scripts/package.json ] && scripts_depend_old=$(cat $dir_scripts/package.json)
     [ -f $dir_scripts/githubAction.md ] && cp -f $dir_scripts/githubAction.md $list_task_action_scripts
 
+    if [ -d ${dir_scripts}/.git ]; then
+        [ -z $JD_SCRIPTS_URL ] && [[ -z $(grep $url_scripts $dir_scripts/.git/config) ]] && rm -rf $dir_scripts
+        if [[ ! -z $JD_SCRIPTS_URL ]]; then
+            if [[ -z $(grep $JD_SCRIPTS_URL $dir_scripts/.git/config) ]]; then
+                rm -rf $dir_scripts
+            fi
+        fi
+    fi
+    url_scripts=${JD_SCRIPTS_URL:-https://gitee.com/highdimen/clone_scripts.git}
+    branch_scripts=${JD_SCRIPTS_BRANCH:-origin/master}
     ## 更新或克隆scripts
     if [ -d $dir_scripts/.git ]; then
-        git_pull_scripts $dir_scripts origin/master
+        git_pull_scripts $dir_scripts $branch_scripts
     else
-        git_clone_scripts $url_scripts $dir_scripts
+        git_clone_scripts $url_scripts $dir_scripts $branch_scripts
     fi
 
     if [[ $exit_status -eq 0 ]]; then
@@ -1513,7 +1520,7 @@ find_file_and_path() {
 }
 
 ## 运行自定义脚本
-run_task_finish () {
+run_task_finish() {
     if [[ $EnableTaskFinishShell == true ]]; then
         echo -e "\n--------------------------------------------------------------\n"
         if [ -f $file_task_finish_shell ]; then
@@ -1521,7 +1528,7 @@ run_task_finish () {
             . $file_task_finish_shell
             echo -e "$file_task_finish_shell执行完毕...\n"
         else
-           echo -e "$file_task_finish_shell文件不存在，跳过执行...\n"
+            echo -e "$file_task_finish_shell文件不存在，跳过执行...\n"
         fi
     fi
 }
