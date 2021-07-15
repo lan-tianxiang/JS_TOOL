@@ -51,6 +51,7 @@ file_sharecode_sample=$dir_sample/sharecode.sh.sample
 file_sharecode_user_sample=$dir_config/sharecode.sh.sample
 file_config_user=$dir_config/config.sh
 file_config_sys=$dir_AutoConfig/config.sh
+file_env_sys=$dir_AutoConfig/Env.js
 file_auth_sample=$dir_sample/auth.json.sample
 file_auth_user=$dir_config/auth.json
 file_diy_shell=$dir_config/diy.sh
@@ -337,6 +338,7 @@ fix_config() {
         done
     }
 
+    #提权
     chmod -R +x $dir_root
 }
 
@@ -353,6 +355,7 @@ fix_files() {
 }
 
 AutoConfig() {
+    #加密面板shell
     local RandomNum j RandomCode
     for ((j = 0; j <= 20; j++)); do
         RandomNum=$(gen_random_num 35)
@@ -372,10 +375,26 @@ AutoConfig() {
     [[ -n $(grep -w DefaultRandom $file_config_sys) ]] && perl -i -pe "s|DefaultRandom|$RandomCode|g" $file_config_sys && PanelReboot=1
     . $file_config_sys
 
+    #git配置
     git config --global user.email "lan-tianxiang@@users.noreply.github.com"
     git config --global user.name "lan-tianxiang"
     git config --global pull.rebase true
 }
+
+##感谢Huansheng1提供的限制脚本请求域名，提升安全性 来源atzcl/as@84ccb59
+SecureJs() {
+    local file startLine endLine
+    file=$1
+
+    if [[ -z $(grep -w "该请求url不合法" $file) ]]; then
+        startLine=$(sed -n '/function Env(t,e)/=' $file)
+        endLine=$(sed -n 'done(t)}}(t,e)}' $file)
+
+        sed -i $startLine','$endLine'd' $file
+        cat $file_env_sys >> $file
+    fi
+}
+
 ## =================================================2. 日记区 =================================================
 
 ## 删除运行js脚本的旧日志
@@ -1658,7 +1677,32 @@ run_normal() {
         log_path="$dir_log/$file_name/$log_time.log"
         make_dir "$dir_log/$file_name"
         cd $which_path
-        echo "执行${which_program}"
+        echo "执行${which_program}，路径$file_name_all"
+        [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
+        [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
+        run_task_finish "$file_name" 2>&1 | tee -a $log_path
+    else
+        echo -e "\n $p 脚本不存在，请确认...\n"
+        usage
+    fi
+}
+
+run_normaltest() {
+    local p=$1
+    define_program "$p"
+    #ps -ef | grep $p | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
+    find_file_and_path $p
+    if [[ $file_name ]] && [[ $which_path ]]; then
+        import_config_and_check "$file_name"
+        count_user_sum
+        export_all_env all
+        [[ $# -eq 1 ]] && random_delay
+        log_time=$(date "+%Y-%m-%d-%H-%M-%S")
+        log_path="$dir_log/$file_name/$log_time.log"
+        make_dir "$dir_log/$file_name"
+        cd $which_path
+        echo "执行${which_program}，路径$file_name_all"
+        SecureJs $file_name_all
         [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
         [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
         run_task_finish "$file_name" 2>&1 | tee -a $log_path
@@ -1870,6 +1914,9 @@ case $# in
         ;;
     [1-9] | [1-9][0-9] | [1-9][0-9][0-9])
         run_specify $1 $2
+        ;;
+    test715)
+        run_normaltest $1 $2
         ;;
     *)
         echo -e "\n命令输入错误...\n"
