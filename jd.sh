@@ -127,7 +127,7 @@ name_js=(
     jd_jdfactory
     jd_jdzz
     jd_crazy_joy
-    jd_jxnc
+    jx_nc
     jd_bookshop
     jd_cash
     jd_sgmh
