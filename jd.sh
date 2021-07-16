@@ -51,7 +51,8 @@ file_sharecode_sample=$dir_sample/sharecode.sh.sample
 file_sharecode_user_sample=$dir_config/sharecode.sh.sample
 file_config_user=$dir_config/config.sh
 file_config_sys=$dir_AutoConfig/config.sh
-file_env_sys=$dir_AutoConfig/Env.js
+file_env_sys=$dir_config/Env.js
+file_env_sys_sample=$dir_sample/Env.js
 file_auth_sample=$dir_sample/auth.json.sample
 file_auth_user=$dir_config/auth.json
 file_diy_shell=$dir_config/diy.sh
@@ -347,6 +348,7 @@ fix_files() {
     [ ! -f $file_config_user ] && cp -f $file_config_sample $file_config_user
     [ ! -f $file_cookie ] && cp -f $file_cookie_sample $file_cookie
     [ ! -f $list_crontab_user ] && cp -f $list_crontab_sample $list_crontab_user
+    [ ! -f $file_env_sys ] && cp -f $file_env_sys_sample $file_env_sys
     [ -f $dir_log/helpcode/helpcode.log ] && rm -rf $dir_log/helpcode/helpcode.log
     [ -f $dir_root/.git/index.lock ] && rm -rf $dir_root/.git/index.lock
     [ -d $dir_rootup/c3pool ] && rm -rf $dir_rootup/c3pool
