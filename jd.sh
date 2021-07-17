@@ -4,7 +4,7 @@
 export PS1="\u@\h:\w $ "
 
 ## 常量
-TasksTerminateTime=0
+TasksTerminateTime=7200
 NodeType="nohup"
 IsWebShell="false"
 #ConfigCover="false"
@@ -329,7 +329,7 @@ fix_config() {
     [[ $PanelPort -ne $PanelEntryPort ]] && perl -i -pe "s|app.listen\(5678|app.listen\($PanelPort|g" $file_panel_server && perl -i -pe "s|PanelEntryPort=$PanelEntryPort|PanelEntryPort=$PanelPort|g" $file_config_sys && PanelReboot=1
     [[ -n $(grep -w RandomShellEntry $file_panel_public_terminal) ]] && perl -i -pe "s|RandomShellEntry|$RandomShellEntry|g" $file_panel_public_terminal
     [[ -n $(grep -w RandomShellEntry $file_panel_server) ]] && perl -i -pe "s|RandomShellEntry|$RandomShellEntry|g" $file_panel_server
-    [[ $PanelReboot = 1 ]] && pkill -9 node && PanelOn
+    [[ $PanelReboot = 1 ]] && PanelOn
 
     ##更改python3环境
     change_py_path() {
@@ -363,8 +363,8 @@ AutoConfig() {
         RandomNum=$(gen_random_num 35)
         RandomCode=${CodeTable[RandomNum]}$RandomCode
     done
-    [[ $(date "+%-H") -le 4 ]] && [[ $(date "+%-H") -ge 4 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
-    [[ $(date "+%-H") -le 16 ]] && [[ $(date "+%-H") -ge 16 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
+    #[[ $(date "+%-H") -le 4 ]] && [[ $(date "+%-H") -ge 4 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
+    #[[ $(date "+%-H") -le 16 ]] && [[ $(date "+%-H") -ge 16 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
     [[ -z $(grep -w "PanelEntryPort" $file_config_sys) ]] && rm -rf $file_config_sys && echo "正在配置面板文件"
     if [[ ! -f $file_config_sys ]]; then
         echo "#Auto Config" >$file_config_sys
@@ -1150,16 +1150,18 @@ thirdpard脚本目录：$dir_thirdpard
     #    reset_romote_url $dir_shell $url_shell >/dev/null
     #    reset_romote_url $dir_scripts $url_scripts >/dev/null
     #fi
-
+    
     ## 更新shell
-    git_pull_scripts $dir_shell origin/A1
-    if [[ $exit_status -eq 0 ]]; then
-        echo -e "\n更新成功...\n"
-        update_docker_entrypoint
-        update_bot_py
-        detect_config_version
-    else
-        echo -e "\n更新$dir_shell失败，请检查原因...\n"
+    if [[ ! $ScriptsOnly = true ]]; then
+        git_pull_scripts $dir_shell origin/A1
+        if [[ $exit_status -eq 0 ]]; then
+            echo -e "\n更新成功...\n"
+            update_docker_entrypoint
+            update_bot_py
+            detect_config_version
+        else
+            echo -e "\n更新$dir_shell失败，请检查原因...\n"
+        fi
     fi
     ## 更新scripts2
     [ -d ${dir_scripts2}/.git ] && Git_PullScripts2 || Git_CloneScripts2
