@@ -1681,7 +1681,7 @@ run_normal() {
     local p=$1
     define_program "$p"
     find_file_and_path $p
-    ps -ef | grep $file_name_all | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
+    ps -ef | grep $file_name | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
     if [[ $file_name ]] && [[ $which_path ]]; then
         import_config_and_check "$file_name"
         count_user_sum
