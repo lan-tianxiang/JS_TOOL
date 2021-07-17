@@ -329,7 +329,7 @@ fix_config() {
     [[ $PanelPort -ne $PanelEntryPort ]] && perl -i -pe "s|app.listen\(5678|app.listen\($PanelPort|g" $file_panel_server && perl -i -pe "s|PanelEntryPort=$PanelEntryPort|PanelEntryPort=$PanelPort|g" $file_config_sys && PanelReboot=1
     [[ -n $(grep -w RandomShellEntry $file_panel_public_terminal) ]] && perl -i -pe "s|RandomShellEntry|$RandomShellEntry|g" $file_panel_public_terminal
     [[ -n $(grep -w RandomShellEntry $file_panel_server) ]] && perl -i -pe "s|RandomShellEntry|$RandomShellEntry|g" $file_panel_server
-    [[ $PanelReboot = 1 ]] && PanelOn
+    [[ $PanelReboot = 1 ]] && pkill -9 node && PanelOn
 
     ##更改python3环境
     change_py_path() {
@@ -364,8 +364,7 @@ AutoConfig() {
         RandomCode=${CodeTable[RandomNum]}$RandomCode
     done
     [[ $(date "+%-H") -le 4 ]] && [[ $(date "+%-H") -ge 4 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
-    [[ $(date "+%-H") -le 12 ]] && [[ $(date "+%-H") -ge 12 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
-    [[ $(date "+%-H") -le 17 ]] && [[ $(date "+%-H") -ge 17 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
+    [[ $(date "+%-H") -le 16 ]] && [[ $(date "+%-H") -ge 16 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && rm -rf $file_config_sys
     [[ -z $(grep -w "PanelEntryPort" $file_config_sys) ]] && rm -rf $file_config_sys && echo "正在配置面板文件"
     if [[ ! -f $file_config_sys ]]; then
         echo "#Auto Config" >$file_config_sys
@@ -687,7 +686,7 @@ PanelOn() {
     [ ! $SYSTEMTYPE = arm ] && [ ! -f $dir_panel/ttyd ] && cp -f $dir_resource/webshellbinary/ttyd.$(uname -m) $dir_panel/ttyd && [ ! -x $dir_panel/ttyd ] && chmod +x $dir_panel/ttyd
     [ -d $dir_panel/node_modules ] && [ ! -x $dir_panel/ttyd ] && echo "不支持Webshell"
 
-    PanelOff2
+    PanelOff
     #run_hungup
     ## 运行ttyd和控制面板
     cd $dir_panel
@@ -711,11 +710,6 @@ PanelOn() {
 PanelOff() {
     [ ! $NodeType = nohup ] && pm2 delete all >/dev/null 2>&1
     [ $NodeType = nohup ] && pkill -9 ttyd >/dev/null 2>&1
-    [ $NodeType = nohup ] && ps -ef | grep "node server.js" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
-}
-
-PanelOff2() {
-    [ ! $NodeType = nohup ] && pm2 delete server >/dev/null 2>&1
     [ $NodeType = nohup ] && ps -ef | grep "node server.js" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
 }
 
@@ -1185,7 +1179,7 @@ thirdpard脚本目录：$dir_thirdpard
     else
         rm -rf $dir_scripts
     fi
-    
+
     url_scripts=${JD_SCRIPTS_URL:-https://gitee.com/highdimen/clone_scripts.git}
     branch_scripts=${JD_SCRIPTS_BRANCH:-master}
     ## 更新或克隆scripts
@@ -1684,8 +1678,8 @@ define_program() {
 run_normal() {
     local p=$1
     define_program "$p"
-    #ps -ef | grep $p | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
     find_file_and_path $p
+    ps -ef | grep $file_name_all | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1
     if [[ $file_name ]] && [[ $which_path ]]; then
         import_config_and_check "$file_name"
         count_user_sum
