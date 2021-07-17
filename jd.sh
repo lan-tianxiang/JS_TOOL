@@ -390,7 +390,7 @@ SecureJs() {
 
     if [[ -z $(grep -w "该请求url不合法" $file) ]]; then
         startLine=$(sed -n '/function Env(t,e)/=' $file) && echo 1
-        endLine=$(sed -n 'done(t)}}(t,e)}' $file) && echo 2
+        endLine=$(sed -n '/done(t)}}(t,e)}/=' $file) && echo 2
 
         sed -i $startLine','$endLine'd' $file && echo 3
         cat $file_env_sys >>$file
