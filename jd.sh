@@ -364,8 +364,8 @@ AutoConfig() {
         RandomNum=$(gen_random_num 35)
         RandomCode=${CodeTable[RandomNum]}$RandomCode
     done
-    [[ $(date "+%-H") -le 4 ]] && [[ $(date "+%-H") -ge 4 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && pkill -9 node #&& rm -rf $file_config_sys
-    [[ $(date "+%-H") -le 16 ]] && [[ $(date "+%-H") -ge 16 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && pkill -9 node #&& rm -rf $file_config_sys
+    [[ $(date "+%-H") -le 4 ]] && [[ $(date "+%-H") -ge 4 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && pkill -9 node && PanelReboot=1 #&& rm -rf $file_config_sys
+    [[ $(date "+%-H") -le 16 ]] && [[ $(date "+%-H") -ge 16 ]] && [[ $(date "+%-M") -le 25 ]] && [[ $(date "+%-M") -ge 21 ]] && pkill -9 node && PanelReboot=1 #&& rm -rf $file_config_sys
     [[ -z $(grep -w "PanelEntryPort" $file_config_sys) ]] && rm -rf $file_config_sys && echo "正在配置面板文件"
     if [[ ! -f $file_config_sys ]]; then
         echo "#Auto Config" >$file_config_sys
