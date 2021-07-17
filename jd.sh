@@ -4,7 +4,8 @@
 export PS1="\u@\h:\w $ "
 
 ## 常量
-TasksTerminateTime=7200
+TasksTerminateTime=10000
+[[ ! $(type timeout) ]] && TasksTerminateTime=0
 NodeType="nohup"
 IsWebShell="false"
 #ConfigCover="false"
@@ -231,7 +232,7 @@ detect_system() {
     [[ -n $(ls /etc | grep debian_version) ]] && SYSTEM=Debian
     [[ -n $(ls /etc | grep redhat-release) ]] && SYSTEM=Centos
     [ -f /proc/1/cgroup ] && [[ -n $(cat /proc/1/cgroup | grep cpuset | grep scope) ]] && SYSTEM=Docker
-    [ -f /proc/version ] && [[ -n $(cat /proc/version | grep Openwar) ]] && SYSTEM=Openwar && TasksTerminateTime=0
+    [ -f /proc/version ] && [[ -n $(cat /proc/version | grep Openwar) ]] && SYSTEM=Openwar
     #[[ -n $(dmesg|grep -i virtual) ]] && Platform="虚拟机"
 }
 
