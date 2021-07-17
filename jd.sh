@@ -385,14 +385,16 @@ AutoConfig() {
 
 ##感谢Huansheng1提供的限制脚本请求域名，提升安全性 来源atzcl/as@84ccb59
 SecureJs() {
-    local file startLine endLine
+    local file startLine endLine containText
     file=$1
 
     if [[ -z $(grep -w "该请求url不合法" $file) ]]; then
-        startLine=$(sed -n '/function Env(t,e)/=' $file) && echo 1
-        endLine=$(sed -n '/done(t)}}(t,e)}/=' $file) && echo 2
+        startLine=$(sed -n '/function Env(t,e)/=' $file)
+        endLine=$(sed -n '/done(t)}}(t,e)}/=' $file)
+        containText=$(cat $file_env_sys)
+        sed -i "/new Env/i\$containText" 
 
-        sed -i $startLine','$endLine'd' $file && echo 3
+        sed -i $startLine','$endLine'd' $file
         cat $file_env_sys >>$file
     fi
 }
@@ -1693,7 +1695,7 @@ run_normal() {
         make_dir "$dir_log/$file_name"
         cd $which_path
         echo "执行${which_program}，路径$which_path/$file_name_all"
-        [[ $which_program = node ]] && [[ $IsSecure = true ]] && SecureJs $file_name_all
+        [[ $which_program = node ]] && [[ $IsSecure = true ]] && echo "Secure Js" #&& SecureJs $file_name_all
         [ ${TasksTerminateTime} = 0 ] && $which_program $file_name_all 2>&1 | tee $log_path
         [ ${TasksTerminateTime} -ne 0 ] && timeout ${TasksTerminateTime} $which_program $file_name_all 2>&1 | tee $log_path
         run_task_finish "$file_name" 2>&1 | tee -a $log_path
