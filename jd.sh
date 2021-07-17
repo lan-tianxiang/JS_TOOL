@@ -231,7 +231,7 @@ detect_system() {
     [[ -n $(ls /etc | grep debian_version) ]] && SYSTEM=Debian
     [[ -n $(ls /etc | grep redhat-release) ]] && SYSTEM=Centos
     [ -f /proc/1/cgroup ] && [[ -n $(cat /proc/1/cgroup | grep cpuset | grep scope) ]] && SYSTEM=Docker
-    [ -f /proc/version ] && [[ -n $(cat /proc/version | grep Openwar) ]] && SYSTEM=Openwar
+    [ -f /proc/version ] && [[ -n $(cat /proc/version | grep Openwar) ]] && SYSTEM=Openwar && TasksTerminateTime=0
     #[[ -n $(dmesg|grep -i virtual) ]] && Platform="虚拟机"
 }
 
