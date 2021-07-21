@@ -378,8 +378,8 @@ AutoConfig() {
     . $file_config_sys
 
     #git配置
-    git config --global user.email "lan-tianxiang@@users.noreply.github.com"
-    git config --global user.name "lan-tianxiang"
+    git config user.email "lan-tianxiang@@users.noreply.github.com"
+    git config user.name "lan-tianxiang"
     git config --global pull.rebase true
 }
 
