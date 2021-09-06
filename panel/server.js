@@ -1027,6 +1027,24 @@ app.get('/api/scripts/:dir/:file', function (request, response) {
 
 });
 
+/**
+ * 远程提交ck.
+ */
+app.post('/addck', function (request, response) {
+       try {
+           const cookie = request.query.ck;
+           if ( cookie.match(/pt_pin=.+?;/) && cookie.match(/pt_key=.+?;/)){
+             AutoAddCK(cookie, '上传ck添加成功'); 
+             response.send({ err: 0, msg: '上传ck添加成功' });
+          }else{
+             response.send({ err: 1, msg: '上传的ck格式错误' });
+          }
+       }
+       catch (err) {
+           response.send({ err: 1, msg: err });
+       }
+});
+
 checkConfigFile();
 
 // ttyd proxy
